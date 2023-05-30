@@ -1,29 +1,80 @@
 <template>
-  <div class="w-2/5 m-auto p-8 rounded-xl shadow-xl">
-    <a-tabs default-active-key="1">
-      <a-tab-pane key="1" title="Tab 1">
-        <router-link to="/file">{{ $t('login.title') }} <a-empty /></router-link>
-      </a-tab-pane>
-      <a-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
-    </a-tabs>
-    <a-button @click="changeLocale">
-      <template #icon>
-        <icon-language />
-      </template>
-    </a-button>
-
-    <a-button @click="changeTheme">
-      <template #icon>
-        <icon-sun />
-      </template>
-    </a-button>
+  <div class="login-bg">
+    <div class="login-box w-2/5 m-auto p-8 rounded-xl shadow-xl ref-bgc">
+      <a-typography-title :heading="4">{{ $t('welcome') }}</a-typography-title>
+      <a-tabs default-active-key="1">
+        <a-tab-pane key="1" :title="$t('auth.login')">
+          <a-space direction="vertical" fill size="large">
+            <a-input :placeholder="$t('auth.login.tips.username')" v-model="loginForm.username" allow-clear />
+            <a-input :placeholder="$t('auth.login.tips.password')" v-model="loginForm.password" allow-clear />
+            <a-button type="primary" long>{{ $t('auth.login') }}</a-button>
+          </a-space>
+        </a-tab-pane>
+        <a-tab-pane key="2" :title="$t('auth.register')">
+          <a-space direction="vertical" fill size="large">
+            <a-input :placeholder="$t('auth.register.tips.username')" v-model="loginForm.username" allow-clear />
+            <a-input :placeholder="$t('auth.register.tips.password')" v-model="loginForm.password" allow-clear />
+            <a-input :placeholder="$t('auth.register.tips.email')" v-model="loginForm.email" allow-clear />
+            <a-input :placeholder="$t('auth.register.tips.invite')" v-model="loginForm.invite" allow-clear />
+            <a-button type="primary" long>{{ $t('auth.register') }}</a-button>
+          </a-space>
+        </a-tab-pane>
+      </a-tabs>
+      <a-row class="login-tool">
+        <a-col flex="100px">
+          <a-link href="#">
+            {{ $t('auth.forgetPassword') }}
+          </a-link>
+        </a-col>
+        <a-col flex="auto"> </a-col>
+        <a-col flex="100px" class="flex justify-around">
+          <a-button type="text" @click="changeLocale">
+            <template #icon>
+              <icon-language />
+            </template>
+          </a-button>
+          <a-button type="text" @click="changeTheme">
+            <template #icon>
+              <icon-sun />
+            </template>
+          </a-button>
+        </a-col>
+      </a-row>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
+import { reactive } from 'vue'
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
+
+const loginForm = reactive({
+  username: '',
+  password: '',
+  email: '',
+  invite: ''
+})
 </script>
+
+<style lang="less">
+.login-bg {
+  width: 100vw;
+  height: 100vh;
+  background: url(/login-bg.svg);
+}
+
+.login-box {
+  position: relative;
+  top: 10%;
+  height: 70%;
+  .login-tool {
+    position: absolute;
+    width: calc(100% - 64px);
+    bottom: 10px;
+  }
+}
+</style>

@@ -7,3 +7,13 @@ body {
   background-color: var(--color-bg-1);
   color: var(--color-text-1);
 }
+
+/* 响应式的背景 */
+.ref-bgc {
+  background-color: var(--color-menu-light-bg);
+}
+
+/* 覆盖组件库样式 */
+.arco-typography {
+  margin-top: 0 !important;
+}

@@ -1,5 +1,7 @@
+import auth from './auth/zh-CN'
+
 export default {
-  login: {
-    title: '登陆'
-  }
+  welcome: '欢迎使用 Araden 网盘',
+
+  ...auth
 }
