@@ -6,7 +6,11 @@
       </a-tab-pane>
       <a-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
     </a-tabs>
-    <a-button @click="changeLocale">点击切换语言</a-button>
+    <a-button @click="changeLocale">
+      <template #icon>
+        <icon-language />
+      </template>
+    </a-button>
   </div>
 </template>
 
