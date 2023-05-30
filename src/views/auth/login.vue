@@ -11,11 +11,19 @@
         <icon-language />
       </template>
     </a-button>
+
+    <a-button @click="changeTheme">
+      <template #icon>
+        <icon-sun />
+      </template>
+    </a-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import useLocale from '@/hooks/useLocale'
+import useTheme from '@/hooks/useTheme'
 
 const { changeLocale } = useLocale()
+const { changeTheme } = useTheme()
 </script>
