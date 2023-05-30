@@ -12,6 +12,7 @@ const i18n = createI18n({
   locale: defaultLocale,
   allowComposition: true,
   globalInjection: true,
+  legacy: false,
   messages: {
     'en-US': en,
     'zh-CN': cn
