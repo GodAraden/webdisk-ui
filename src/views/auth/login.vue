@@ -5,17 +5,43 @@
       <a-tabs default-active-key="1">
         <a-tab-pane key="1" :title="$t('auth.login')">
           <a-space direction="vertical" fill size="large">
-            <a-input :placeholder="$t('auth.login.tips.username')" v-model="loginForm.username" allow-clear />
-            <a-input :placeholder="$t('auth.login.tips.password')" v-model="loginForm.password" allow-clear />
-            <a-button type="primary" long>{{ $t('auth.login') }}</a-button>
+            <a-input
+              :placeholder="$t('auth.login.tips.username')"
+              v-model="loginForm.username"
+              allow-clear
+            />
+            <a-input
+              :placeholder="$t('auth.login.tips.password')"
+              v-model="loginForm.password"
+              allow-clear
+            />
+            <a-button type="primary" long @click="login">{{
+              $t('auth.login')
+            }}</a-button>
           </a-space>
         </a-tab-pane>
         <a-tab-pane key="2" :title="$t('auth.register')">
           <a-space direction="vertical" fill size="large">
-            <a-input :placeholder="$t('auth.register.tips.username')" v-model="loginForm.username" allow-clear />
-            <a-input :placeholder="$t('auth.register.tips.password')" v-model="loginForm.password" allow-clear />
-            <a-input :placeholder="$t('auth.register.tips.email')" v-model="loginForm.email" allow-clear />
-            <a-input :placeholder="$t('auth.register.tips.invite')" v-model="loginForm.invite" allow-clear />
+            <a-input
+              :placeholder="$t('auth.register.tips.username')"
+              v-model="loginForm.username"
+              allow-clear
+            />
+            <a-input
+              :placeholder="$t('auth.register.tips.password')"
+              v-model="loginForm.password"
+              allow-clear
+            />
+            <a-input
+              :placeholder="$t('auth.register.tips.email')"
+              v-model="loginForm.email"
+              allow-clear
+            />
+            <a-input
+              :placeholder="$t('auth.register.tips.invite')"
+              v-model="loginForm.invite"
+              allow-clear
+            />
             <a-button type="primary" long>{{ $t('auth.register') }}</a-button>
           </a-space>
         </a-tab-pane>
@@ -45,9 +71,12 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
-import { reactive } from 'vue'
+
+const router = useRouter()
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
@@ -58,6 +87,10 @@ const loginForm = reactive({
   email: '',
   invite: ''
 })
+
+const login = async () => {
+  router.push('/file')
+}
 </script>
 
 <style lang="less">
