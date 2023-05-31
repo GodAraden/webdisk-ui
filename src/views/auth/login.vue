@@ -1,7 +1,12 @@
 <template>
   <div class="login-bg">
-    <div class="login-box w-2/5 m-auto p-8 rounded-xl shadow-xl ref-bgc">
-      <a-typography-title :heading="4">{{ $t('welcome') }}</a-typography-title>
+    <div class="login-box m-auto p-8 rounded-xl shadow-xl ref-bgc">
+      <a-typography-title
+        :heading="3"
+        style="font-family: 阿里妈妈东方大楷 Regular"
+      >
+        {{ $t('welcome') }}
+      </a-typography-title>
       <a-tabs default-active-key="1">
         <a-tab-pane key="1" :title="$t('auth.login')">
           <a-space direction="vertical" fill size="large">
@@ -104,6 +109,7 @@ const login = async () => {
   position: relative;
   top: 10%;
   height: 70%;
+  width: 38.2%;
   .login-tool {
     position: absolute;
     width: calc(100% - 64px);

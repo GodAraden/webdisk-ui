@@ -7,7 +7,7 @@ const TRANSPORTLIST: AppRouteRecordRaw = {
   component: () => import('@/layout/default.vue'),
   meta: {
     locale: 'menu.transportlist',
-    icon: '',
+    icon: 'icon-chuanshuliebiao',
     order: 2,
     hideChildrenInMenu: true,
     roles: ['auth']

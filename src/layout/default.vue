@@ -4,7 +4,11 @@
       <div class="left-side">
         <a-space :size="4">
           <img alt="logo" width="24" src="/logo.svg" />
-          <a-typography-title :heading="5" class="!m-0">
+          <a-typography-title
+            :heading="5"
+            class="!m-0"
+            style="font-family: 阿里妈妈东方大楷 Regular"
+          >
             {{ $t('title') }}
           </a-typography-title>
         </a-space>
@@ -87,16 +91,11 @@
 
 <script lang="ts" setup>
 import AsideMenu from '@/components/menu/index.vue'
-
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
-// import { parseMenuTree } from '@/utils/parseMenuTree'
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
-// const { menuTree } = parseMenuTree()
-
-// console.log(menuTree)
 </script>
 
 <style lang="less">

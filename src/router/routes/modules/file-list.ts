@@ -7,7 +7,7 @@ const FILELIST: AppRouteRecordRaw = {
   component: () => import('@/layout/default.vue'),
   meta: {
     locale: 'menu.filelist',
-    icon: '',
+    icon: 'icon-file',
     order: 1,
     hideChildrenInMenu: true,
     roles: ['auth']

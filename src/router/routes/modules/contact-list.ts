@@ -7,7 +7,7 @@ const CONTACTLIST: AppRouteRecordRaw = {
   component: () => import('@/layout/default.vue'),
   meta: {
     locale: 'menu.contactlist',
-    icon: '',
+    icon: 'icon-31haoyou',
     order: 4,
     hideChildrenInMenu: true,
     roles: ['auth']

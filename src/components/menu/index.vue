@@ -5,15 +5,22 @@
       :key="item.path"
       @click="$router.push(item.path)"
     >
-      {{ item.meta.icon }}
-      {{ item.meta.locale }}
+      <template #icon>
+        <icon-font :type="(item.meta.icon as string)" />
+      </template>
+      {{ $t(item.meta.locale as string) }}
     </a-menu-item>
   </a-menu>
 </template>
 
 <script lang="ts" setup>
-import { appRoutes } from '@/router/routes'
 import { RouteRecordRaw } from 'vue-router'
+import { appRoutes } from '@/router/routes'
+import { Icon } from '@arco-design/web-vue'
+
+const IconFont = Icon.addFromIconFontCn({
+  src: '//at.alicdn.com/t/c/font_4096434_zt5nsqfg8h7.js'
+})
 
 function sortRoutes(appRoutes: RouteRecordRaw[]) {
   const res: RouteRecordRaw[] = []
