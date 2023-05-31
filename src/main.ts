@@ -7,6 +7,7 @@ import App from './App.vue'
 import { router } from './router'
 import { i18n } from './locale'
 import './style.css'
+import './utils/axios'
 
 const app = createApp(App)
 

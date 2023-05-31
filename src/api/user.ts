@@ -1,0 +1,29 @@
+import axios from 'axios'
+
+export interface LoginParams {
+  username: string
+  password: string
+}
+export type LoginRes = AxiosData<string>
+export async function login(params: LoginParams) {
+  const { data } = await axios.post<LoginRes>('/api/user/login', params)
+  return data
+}
+
+export interface RegisterParams {
+  username: string
+  password: string
+  email: string
+  inviteCode: string
+}
+export type RegisterRes = AxiosData<string>
+export async function register(params: RegisterParams) {
+  const { data } = await axios.post<RegisterRes>('/api/user/register', params)
+  return data
+}
+
+export type LogoutRes = AxiosData<string>
+export async function logout() {
+  const { data } = await axios.post<LogoutRes>('/api/user/logout')
+  return data
+}

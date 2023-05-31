@@ -20,9 +20,9 @@
               v-model="loginForm.password"
               allow-clear
             />
-            <a-button type="primary" long @click="login">{{
-              $t('auth.login')
-            }}</a-button>
+            <a-button type="primary" long @click="onLogin">
+              {{ $t('auth.login') }}
+            </a-button>
           </a-space>
         </a-tab-pane>
         <a-tab-pane key="2" :title="$t('auth.register')">
@@ -47,7 +47,9 @@
               v-model="loginForm.invite"
               allow-clear
             />
-            <a-button type="primary" long>{{ $t('auth.register') }}</a-button>
+            <a-button type="primary" long @click="onRegister">
+              {{ $t('auth.register') }}
+            </a-button>
           </a-space>
         </a-tab-pane>
       </a-tabs>
@@ -80,6 +82,7 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
+import { login } from '@/api/user'
 
 const router = useRouter()
 
@@ -93,7 +96,15 @@ const loginForm = reactive({
   invite: ''
 })
 
-const login = async () => {
+const onLogin = async () => {
+  const data = await login({
+    username: loginForm.username,
+    password: loginForm.password
+  })
+  console.log(data)
+}
+
+const onRegister = async () => {
   router.push('/file')
 }
 </script>
