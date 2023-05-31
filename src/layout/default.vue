@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts" setup>
-import AsideMenu from '@/components/menu/index.vue'
+import AsideMenu from '@/components/menu.vue'
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
 
