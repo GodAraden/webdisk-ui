@@ -3,5 +3,8 @@ export default {
   'tips.http.error.RepetitiveUsername': '用户名重复',
   'tips.http.error.InviteCodeNotExist': '邀请码不存在',
   'tips.http.error.UsernameNotExist': '用户名不存在',
-  'tips.http.error.PasswordError': '密码错误'
+  'tips.http.error.PasswordError': '密码错误',
+
+  'tips.user.LoginSuccess': '登录成功',
+  'tips.user.LogoutSuccess': '登出成功'
 }

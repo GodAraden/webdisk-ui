@@ -29,22 +29,22 @@
           <a-space direction="vertical" fill size="large">
             <a-input
               :placeholder="$t('auth.register.tips.username')"
-              v-model="loginForm.username"
+              v-model="registerForm.username"
               allow-clear
             />
             <a-input
               :placeholder="$t('auth.register.tips.password')"
-              v-model="loginForm.password"
+              v-model="registerForm.password"
               allow-clear
             />
             <a-input
               :placeholder="$t('auth.register.tips.email')"
-              v-model="loginForm.email"
+              v-model="registerForm.email"
               allow-clear
             />
             <a-input
               :placeholder="$t('auth.register.tips.invite')"
-              v-model="loginForm.invite"
+              v-model="registerForm.inviteCode"
               allow-clear
             />
             <a-button type="primary" long @click="onRegister">
@@ -80,31 +80,42 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import Message from '@arco-design/web-vue/es/message'
+
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
-import { login } from '@/api/user'
+import { login, register } from '@/api/user'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
 
 const loginForm = reactive({
   username: '',
+  password: ''
+})
+
+const registerForm = reactive({
+  username: '',
   password: '',
   email: '',
-  invite: ''
+  inviteCode: ''
 })
 
 const onLogin = async () => {
-  const data = await login({
-    username: loginForm.username,
-    password: loginForm.password
-  })
-  console.log(data)
+  const { data, message } = await login(loginForm)
+  if (!data) return
+  Message.success(t(`tips.user.${message}`))
+  router.push('/file')
 }
 
 const onRegister = async () => {
+  const { data, message } = await register(registerForm)
+  if (!data) return
+  Message.success(t(`tips.user.${message}`))
   router.push('/file')
 }
 </script>

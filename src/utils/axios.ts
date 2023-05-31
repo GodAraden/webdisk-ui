@@ -12,7 +12,7 @@ axios.interceptors.response.use(
     Message.error(
       `${statusCode}: ${i18n.global.t('tips.http.error.' + message)}`
     )
-    return { statusCode, data: null }
+    return error.response
   }
 )
 
