@@ -1,8 +1,8 @@
 <template>
-  <a-menu>
+  <a-menu :default-selected-keys="['FileList']">
     <a-menu-item
       v-for="item in sortedAppRoutes"
-      :key="item.path"
+      :key="(item.name as string)"
       @click="$router.push(item.path)"
     >
       <template #icon>
@@ -15,8 +15,8 @@
 
 <script lang="ts" setup>
 import { RouteRecordRaw } from 'vue-router'
-import { appRoutes } from '@/router/routes'
 import { Icon } from '@arco-design/web-vue'
+import { appRoutes } from '@/router/routes'
 
 const IconFont = Icon.addFromIconFontCn({
   src: '//at.alicdn.com/t/c/font_4096434_zt5nsqfg8h7.js'
