@@ -1,8 +1,17 @@
-export default {
+import { AppRouteRecordRaw } from '../types'
+
+const FILELIST: AppRouteRecordRaw = {
   path: '/file',
   name: 'FileList',
   redirect: '/file/index',
   component: () => import('@/layout/default.vue'),
+  meta: {
+    locale: 'menu.filelist',
+    icon: '',
+    order: 1,
+    hideChildrenInMenu: true,
+    roles: ['auth']
+  },
   children: [
     {
       path: 'index',
@@ -11,3 +20,5 @@ export default {
     }
   ]
 }
+
+export default FILELIST
