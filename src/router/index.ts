@@ -25,6 +25,14 @@ const router = createRouter({
         requiresAuth: false
       }
     },
+    {
+      path: '/userinfo',
+      name: 'userinfo',
+      component: () => import('@/views/auth/info.vue'),
+      meta: {
+        roles: ['user', 'admin']
+      }
+    },
     ...appRoutes
   ],
   scrollBehavior() {

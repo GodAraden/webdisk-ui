@@ -49,7 +49,7 @@
             </a-avatar>
             <template #content>
               <a-doption>
-                <a-space @click="$router.push({ name: 'Setting' })">
+                <a-space @click="$router.push({ name: 'userinfo' })">
                   <icon-settings />
                   {{ $t('auth.userSettings') }}
                 </a-space>

@@ -12,7 +12,23 @@ export async function login(params: LoginParams) {
 
 export type WhoAmIRes = AxiosData<UserState>
 export async function whoAmI() {
-  const { data } = await axios.post<WhoAmIRes>('/api/user/whoAmI')
+  const { data } = await axios.get<WhoAmIRes>('/api/user/whoAmI')
+  return data
+}
+
+export type UserInfoRes = AxiosData<User>
+export async function getUserInfo() {
+  const { data } = await axios.get<UserInfoRes>('/api/user/userinfo')
+  return data
+}
+
+export interface UpdateParams {
+  username?: string
+  password?: string
+  email?: string
+}
+export async function updateUserInfo(params: UpdateParams) {
+  const { data } = await axios.patch<UserInfoRes>('api/user/update', params)
   return data
 }
 

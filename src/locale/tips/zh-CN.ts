@@ -9,5 +9,7 @@ export default {
   'tips.user.LoginSuccess': '登录成功',
   'tips.user.LogoutSuccess': '登出成功',
   'tips.user.ReLoginSuccess': '欢迎回来',
-  'tips.user.RegisterSuccess': '注册成功，即将自动登录'
+  'tips.user.RegisterSuccess': '注册成功，即将自动登录',
+
+  'tips.userinfo.EditSuccess': '修改成功'
 }
