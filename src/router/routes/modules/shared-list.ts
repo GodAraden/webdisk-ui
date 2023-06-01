@@ -7,7 +7,7 @@ const SHAREDLIST: AppRouteRecordRaw = {
   component: () => import('@/layout/default.vue'),
   meta: {
     locale: 'menu.sharedlist',
-    icon: 'icon-gongxiang',
+    icon: 'icon-shujugongxiang',
     order: 3,
     hideChildrenInMenu: true,
     roles: ['user', 'admin']
