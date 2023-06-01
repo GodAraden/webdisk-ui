@@ -10,6 +10,12 @@ export async function login(params: LoginParams) {
   return data
 }
 
+export type WhoAmIRes = AxiosData<UserState>
+export async function whoAmI() {
+  const { data } = await axios.post<WhoAmIRes>('/api/user/whoAmI')
+  return data
+}
+
 export interface RegisterParams {
   username: string
   password: string

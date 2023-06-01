@@ -4,11 +4,13 @@ import {
   RegisterParams,
   login,
   logout,
-  register
+  register,
+  whoAmI
 } from '@/api/user'
 import { i18n } from '@/locale'
 import { Message } from '@arco-design/web-vue'
 import { router } from '@/router'
+import { removeToken, setToken } from '@/utils/auth'
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
@@ -23,19 +25,20 @@ const useUserStore = defineStore('user', {
   },
 
   actions: {
-    switchRoles() {
-      return new Promise((resolve) => {
-        this.role = this.role === 'user' ? 'admin' : 'user'
-        resolve(this.role)
+    setState(param: Partial<UserState>) {
+      const { id, role } = param
+      this.$patch({
+        id,
+        role
       })
     },
 
     async onLogin(loginForm: LoginParams) {
       const { data, message } = await login(loginForm)
       if (!data) return
+      setToken()
+      this.setState(data)
       Message.success(i18n.global.t(`tips.user.${message}`))
-      this.id = data.id
-      this.role = data.role
       router.push('/file')
     },
 
@@ -57,7 +60,18 @@ const useUserStore = defineStore('user', {
         router.push('/login')
       } finally {
         this.$reset()
+        removeToken()
       }
+    },
+
+    async whoAmI() {
+      const { data } = await whoAmI()
+      if (!data) {
+        removeToken()
+        return
+      }
+      this.setState(data)
+      setToken()
     }
   }
 })

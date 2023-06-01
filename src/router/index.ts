@@ -4,12 +4,13 @@ import {
   createWebHashHistory
 } from 'vue-router'
 import { appRoutes } from './routes'
+import { createRouteGuard } from './guard'
 
 const createHistory = import.meta.env.PROD
   ? createWebHistory
   : createWebHashHistory
 
-export const router = createRouter({
+const router = createRouter({
   history: createHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -30,3 +31,7 @@ export const router = createRouter({
     return { top: 0 }
   }
 })
+
+createRouteGuard(router)
+
+export { router }
