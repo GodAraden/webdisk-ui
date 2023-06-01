@@ -4,6 +4,7 @@ export default {
   'auth.login.tips.password': '请输入密码',
 
   'auth.logout': '退出登录',
+  'auth.userSettings': '用户设置',
   'auth.forgetPassword': '忘记密码',
 
   'auth.register': '注册',

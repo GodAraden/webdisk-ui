@@ -51,13 +51,13 @@
               <a-doption>
                 <a-space @click="$router.push({ name: 'Setting' })">
                   <icon-settings />
-                  {{ $t('messageBox.userSettings') }}
+                  {{ $t('auth.userSettings') }}
                 </a-space>
               </a-doption>
-              <a-doption>
+              <a-doption @click="() => onLogout()">
                 <a-space>
                   <icon-export />
-                  {{ $t('messageBox.logout') }}
+                  {{ $t('auth.logout') }}
                 </a-space>
               </a-doption>
             </template>
@@ -93,9 +93,11 @@
 import AsideMenu from '@/components/menu.vue'
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
+import { useUserStore } from '@/store'
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
+const { onLogout } = useUserStore()
 </script>
 
 <style lang="less">

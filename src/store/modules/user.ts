@@ -51,7 +51,10 @@ const useUserStore = defineStore('user', {
 
     async onLogout() {
       try {
-        await logout()
+        const { data, message } = await logout()
+        if (!data) return
+        Message.success(i18n.global.t(`tips.user.${message}`))
+        router.push('/login')
       } finally {
         this.$reset()
       }
