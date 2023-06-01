@@ -10,7 +10,7 @@ const FILELIST: AppRouteRecordRaw = {
     icon: 'icon-file',
     order: 1,
     hideChildrenInMenu: true,
-    roles: ['auth']
+    roles: ['user', 'admin']
   },
   children: [
     {

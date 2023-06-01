@@ -17,6 +17,9 @@
 import { RouteRecordRaw } from 'vue-router'
 import { Icon } from '@arco-design/web-vue'
 import { appRoutes } from '@/router/routes'
+import { useUserStore } from '@/store'
+
+const { userInfo } = useUserStore()
 
 const IconFont = Icon.addFromIconFontCn({
   src: '//at.alicdn.com/t/c/font_4096434_zt5nsqfg8h7.js'
@@ -33,6 +36,15 @@ function sortRoutes(appRoutes: RouteRecordRaw[]) {
         copyedRoute.children = sortRoutes(route.children)
       }
     }
+
+    // 当前登录的用户权限不在此路由许可的范围内
+    if (
+      Array.isArray(copyedRoute.meta?.roles) &&
+      !copyedRoute.meta?.roles.includes(userInfo.role)
+    ) {
+      continue
+    }
+
     res.push(copyedRoute)
   }
   return res.sort(

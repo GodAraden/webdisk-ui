@@ -10,7 +10,7 @@ const TRANSPORTLIST: AppRouteRecordRaw = {
     icon: 'icon-chuanshuliebiao',
     order: 2,
     hideChildrenInMenu: true,
-    roles: ['auth']
+    roles: ['user', 'admin']
   },
   children: [
     {

@@ -10,11 +10,6 @@ import { i18n } from '@/locale'
 import { Message } from '@arco-design/web-vue'
 import { router } from '@/router'
 
-interface UserState {
-  id?: string
-  role?: Role
-}
-
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
     id: undefined,
@@ -39,6 +34,8 @@ const useUserStore = defineStore('user', {
       const { data, message } = await login(loginForm)
       if (!data) return
       Message.success(i18n.global.t(`tips.user.${message}`))
+      this.id = data.id
+      this.role = data.role
       router.push('/file')
     },
 

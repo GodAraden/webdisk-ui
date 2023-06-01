@@ -10,7 +10,7 @@ const SHAREDLIST: AppRouteRecordRaw = {
     icon: 'icon-gongxiang',
     order: 3,
     hideChildrenInMenu: true,
-    roles: ['auth']
+    roles: ['user', 'admin']
   },
   children: [
     {

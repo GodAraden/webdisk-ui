@@ -9,6 +9,7 @@ export default {
   'menu.contactlist': '好友列表',
   'menu.transportlist': '传输任务',
   'menu.sharedlist': '共享文件',
+  'menu.userManage': '用户管理',
 
   ...auth,
   ...tips

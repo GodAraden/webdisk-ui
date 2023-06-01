@@ -9,8 +9,10 @@ import { computed } from 'vue'
 import zhCN from '@arco-design/web-vue/es/locale/lang/zh-cn'
 import enUS from '@arco-design/web-vue/es/locale/lang/en-us'
 import useLocale from '@/hooks/useLocale'
+import { useUserStore } from '@/store'
 
 const { currentLocale } = useLocale()
+const { onLogin } = useUserStore()
 
 const locale = computed(() => {
   switch (currentLocale.value) {
@@ -20,6 +22,8 @@ const locale = computed(() => {
       return enUS
   }
 })
+
+onLogin({ username: '', password: '' })
 </script>
 
 <style lang="less" scoped></style>

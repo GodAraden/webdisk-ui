@@ -10,7 +10,7 @@ const CONTACTLIST: AppRouteRecordRaw = {
     icon: 'icon-31haoyou',
     order: 4,
     hideChildrenInMenu: true,
-    roles: ['auth']
+    roles: ['user', 'admin']
   },
   children: [
     {
