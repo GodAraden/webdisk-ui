@@ -49,3 +49,25 @@ export async function logout() {
   const { data } = await axios.post<LogoutRes>('/api/user/logout')
   return data
 }
+
+// 用户管理部分
+export interface UserListItem {
+  id: string
+  username: string
+  email: string
+  role: string
+  registerTime: string
+  loginTime: string
+}
+
+export type UserListRes = AxiosData<UserListItem[]>
+export async function getUserList() {
+  const { data } = await axios.get<UserListRes>('/api/user/userlist')
+  return data
+}
+
+export type DeleteUserRes = AxiosData
+export async function deleteUser(id: string) {
+  const { data } = await axios.delete<DeleteUserRes>(`/api/user/${id}`)
+  return data
+}

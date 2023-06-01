@@ -18,6 +18,7 @@
             <a-input
               :placeholder="$t('auth.login.tips.password')"
               v-model="loginForm.password"
+              type="password"
               allow-clear
             />
             <a-button long type="primary" @click="() => onLogin(loginForm)">

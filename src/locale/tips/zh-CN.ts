@@ -11,5 +11,7 @@ export default {
   'tips.user.ReLoginSuccess': '欢迎回来',
   'tips.user.RegisterSuccess': '注册成功，即将自动登录',
 
-  'tips.userinfo.EditSuccess': '修改成功'
+  'tips.userinfo.EditSuccess': '修改成功',
+  'tips.userManage.DeleteSuccess': '删除成功',
+  'tips.userManage.DeleteSelf': '不能删除自己哦 ~'
 }

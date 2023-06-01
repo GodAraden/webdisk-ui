@@ -1,5 +1,5 @@
 <template>
-  <a-menu :default-selected-keys="['FileList']">
+  <a-menu :default-selected-keys="[$route.name]">
     <a-menu-item
       v-for="item in sortedAppRoutes"
       :key="(item.name as string)"
@@ -30,6 +30,7 @@ function sortRoutes(appRoutes: RouteRecordRaw[]) {
   for (const route of appRoutes) {
     const copyedRoute = Object.assign({}, route)
     if (copyedRoute.meta.hideChildrenInMenu) {
+      copyedRoute.name = copyedRoute.children[0].name
       delete copyedRoute.children
     } else {
       if (copyedRoute.children) {
@@ -54,5 +55,5 @@ function sortRoutes(appRoutes: RouteRecordRaw[]) {
 
 const sortedAppRoutes = sortRoutes(appRoutes)
 
-console.log(appRoutes, sortedAppRoutes)
+// console.log(appRoutes, sortedAppRoutes)
 </script>

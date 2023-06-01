@@ -135,7 +135,7 @@ const { onLogout } = useUserStore()
 .layout-content {
   overflow-y: scroll;
   background-color: var(--color-fill-1);
-  height: calc(100vh - 48px);
-  padding: 12px;
+  height: calc(100vh - 48px); // height of the Header is 3rem = 48px
+  padding: 16px 24px;
 }
 </style>

@@ -1,5 +1,6 @@
 import auth from './auth/zh-CN'
 import tips from './tips/zh-CN'
+import userManage from './user-manage/zh-CN'
 
 export default {
   welcome: '欢迎使用 Araden 的网盘',
@@ -14,5 +15,6 @@ export default {
   'menu.logManage': '日志管理',
 
   ...auth,
-  ...tips
+  ...tips,
+  ...userManage
 }
