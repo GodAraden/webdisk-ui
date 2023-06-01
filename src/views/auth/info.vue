@@ -2,6 +2,14 @@
   <div class="login-bg">
     <div class="login-box m-auto p-8 rounded-xl shadow-xl ref-bgc">
       <a-typography-title :heading="4">
+        <a-button
+          type="text"
+          shape="circle"
+          class="text-btn"
+          @click="$router.push('/file')"
+        >
+          <template #icon> <icon-left /> </template>
+        </a-button>
         {{ $t('userinfo.title') }}
       </a-typography-title>
       <a-descriptions style="margin-top: 20px" size="large" :column="1">
@@ -39,12 +47,12 @@
       <a-row class="login-tool">
         <a-col flex="auto"> </a-col>
         <a-col flex="100px" class="flex justify-around">
-          <a-button type="text" @click="changeLocale">
+          <a-button type="text" class="text-btn" @click="changeLocale">
             <template #icon>
               <icon-language />
             </template>
           </a-button>
-          <a-button type="text" @click="changeTheme">
+          <a-button type="text" class="text-btn" @click="changeTheme">
             <template #icon>
               <icon-sun />
             </template>

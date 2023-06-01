@@ -65,12 +65,12 @@
         </a-col>
         <a-col flex="auto"> </a-col>
         <a-col flex="100px" class="flex justify-around">
-          <a-button type="text" @click="changeLocale">
+          <a-button type="text" class="text-btn" @click="changeLocale">
             <template #icon>
               <icon-language />
             </template>
           </a-button>
-          <a-button type="text" @click="changeTheme">
+          <a-button type="text" class="text-btn" @click="changeTheme">
             <template #icon>
               <icon-sun />
             </template>
