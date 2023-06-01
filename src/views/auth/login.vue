@@ -20,7 +20,7 @@
               v-model="loginForm.password"
               allow-clear
             />
-            <a-button type="primary" long @click="onLogin">
+            <a-button long type="primary" @click="() => onLogin(loginForm)">
               {{ $t('auth.login') }}
             </a-button>
           </a-space>
@@ -47,7 +47,11 @@
               v-model="registerForm.inviteCode"
               allow-clear
             />
-            <a-button type="primary" long @click="onRegister">
+            <a-button
+              long
+              type="primary"
+              @click="() => onRegister(registerForm)"
+            >
               {{ $t('auth.register') }}
             </a-button>
           </a-space>
@@ -79,19 +83,13 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import Message from '@arco-design/web-vue/es/message'
-
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
-import { login, register } from '@/api/user'
-
-const router = useRouter()
-const { t } = useI18n()
+import { useUserStore } from '@/store'
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
+const { onLogin, onRegister } = useUserStore()
 
 const loginForm = reactive({
   username: '',
@@ -104,20 +102,6 @@ const registerForm = reactive({
   email: '',
   inviteCode: ''
 })
-
-const onLogin = async () => {
-  const { data, message } = await login(loginForm)
-  if (!data) return
-  Message.success(t(`tips.user.${message}`))
-  router.push('/file')
-}
-
-const onRegister = async () => {
-  const { data, message } = await register(registerForm)
-  if (!data) return
-  Message.success(t(`tips.user.${message}`))
-  router.push('/file')
-}
 </script>
 
 <style lang="less">

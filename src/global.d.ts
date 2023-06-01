@@ -3,3 +3,5 @@ interface AxiosData<T> {
   message: string
   data: T
 }
+
+type Role = 'user' | 'admin'
