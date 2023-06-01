@@ -7,7 +7,7 @@ const USERMANAGE: AppRouteRecordRaw = {
   component: () => import('@/layout/default.vue'),
   meta: {
     locale: 'menu.userManage',
-    icon: 'icon-gongxiang',
+    icon: 'icon-yonghuguanli',
     order: 5,
     hideChildrenInMenu: true,
     roles: ['admin']

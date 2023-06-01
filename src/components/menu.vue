@@ -22,7 +22,7 @@ import { useUserStore } from '@/store'
 const { userInfo } = useUserStore()
 
 const IconFont = Icon.addFromIconFontCn({
-  src: '//at.alicdn.com/t/c/font_4096434_zt5nsqfg8h7.js'
+  src: import.meta.env.VITE_ALICDN
 })
 
 function sortRoutes(appRoutes: RouteRecordRaw[]) {
