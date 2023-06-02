@@ -5,6 +5,7 @@ export default {
   'tips.http.error.UsernameNotExist': '用户名不存在',
   'tips.http.error.PasswordError': '密码错误',
   'tips.http.error.Validation failed': '表单格式校验未通过',
+  'tips.http.error.NotLogin': '登陆过期，请重新登录',
 
   'tips.user.LoginSuccess': '登录成功',
   'tips.user.LogoutSuccess': '登出成功',
@@ -13,5 +14,6 @@ export default {
 
   'tips.userinfo.EditSuccess': '修改成功',
   'tips.userManage.DeleteSuccess': '删除成功',
-  'tips.userManage.DeleteSelf': '不能删除自己哦 ~'
+  'tips.userManage.DeleteSelf': '不能删除自己哦 ~',
+  'tips.inviteList.CreateSuccess': '创建成功'
 }

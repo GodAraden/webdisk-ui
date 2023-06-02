@@ -18,7 +18,15 @@ export async function whoAmI() {
 
 export type UserInfoRes = AxiosData<User>
 export async function getUserInfo() {
-  const { data } = await axios.get<UserInfoRes>('/api/user/userinfo')
+  const { data } = await axios.get<UserInfoRes>('/api/user/info')
+  return data
+}
+
+export interface UserInfoParams {
+  id: string
+}
+export async function getSpecificUserInfo(params: UserInfoParams) {
+  const { data } = await axios.post<UserInfoRes>('/api/user/info', params)
   return data
 }
 
@@ -62,7 +70,7 @@ export interface UserListItem {
 
 export type UserListRes = AxiosData<UserListItem[]>
 export async function getUserList() {
-  const { data } = await axios.get<UserListRes>('/api/user/userlist')
+  const { data } = await axios.get<UserListRes>('/api/user/list')
   return data
 }
 
