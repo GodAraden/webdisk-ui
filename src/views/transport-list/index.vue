@@ -1,3 +1,9 @@
 <template>
-  <div>传输任务</div>
+  <div>
+    <breadcrumb :items="['menu.transportlist']" />
+  </div>
 </template>
+
+<script lang="ts" setup>
+import breadcrumb from '@/components/breadcrumb.vue'
+</script>

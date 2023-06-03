@@ -1,3 +1,9 @@
 <template>
-  <div>共享文件</div>
+  <div>
+    <breadcrumb :items="['menu.sharedlist']" />
+  </div>
 </template>
+
+<script lang="ts" setup>
+import breadcrumb from '@/components/breadcrumb.vue'
+</script>

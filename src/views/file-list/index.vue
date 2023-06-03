@@ -1,3 +1,9 @@
 <template>
-  <div style="height: 100vw">文件展示</div>
+  <div>
+    <breadcrumb :items="['menu.filelist']" />
+  </div>
 </template>
+
+<script lang="ts" setup>
+import breadcrumb from '@/components/breadcrumb.vue'
+</script>

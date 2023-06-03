@@ -105,10 +105,13 @@ const { onLogout } = useUserStore()
 
 const onFetchContactInvitation = async () => {
   const { data } = await getRecvList()
-  if (!data.length) return
+  const unSolvedCount = data.filter((v) => v.status === 'pending').length
+  if (!unSolvedCount) return
   Notification.info({
     id: 'contact',
-    title: i18n.global.t('notification.contact.title', { count: data.length }),
+    title: i18n.global.t('notification.contact.title', {
+      count: unSolvedCount
+    }),
     content: i18n.global.t('notification.contact.content'),
     closable: true
   })
