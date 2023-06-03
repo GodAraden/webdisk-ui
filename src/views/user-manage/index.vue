@@ -118,7 +118,7 @@ import { Message } from '@arco-design/web-vue'
 
 import { userlistColumns, inviteCodeColumns } from '@/utils/constants'
 import breadcrumb from '@/components/breadcrumb.vue'
-import userinfo from '@/components/userinfo.vue'
+import userinfo from './userinfo.vue'
 import {
   UserListItem,
   getUserList,

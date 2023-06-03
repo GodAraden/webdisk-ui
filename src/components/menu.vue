@@ -25,6 +25,7 @@ const IconFont = Icon.addFromIconFontCn({
   src: import.meta.env.VITE_ALICDN
 })
 
+// 根据路由文件生成导航菜单
 function sortRoutes(appRoutes: RouteRecordRaw[]) {
   const res: RouteRecordRaw[] = []
   for (const route of appRoutes) {

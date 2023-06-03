@@ -39,7 +39,7 @@
           <contactlist field="to" :data="sendList">
             <template #action="{ record }">
               <a-space>
-                <contactstatus :status="record.status" />
+                <status :status="record.status" />
                 <a-button
                   type="text"
                   shape="round"
@@ -85,7 +85,7 @@
                   {{ $t('contactlist.operations.invitations.resolve') }}
                 </a-button>
               </a-space>
-              <contactstatus v-else :status="record.status" />
+              <status v-else :status="record.status" />
             </template>
           </contactlist>
         </a-tab-pane>
@@ -136,8 +136,8 @@ import { useRoute } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 
 import breadcrumb from '@/components/breadcrumb.vue'
-import contactlist from '@/components/contactlist.vue'
-import contactstatus from '@/components/contactstatus.vue'
+import contactlist from './list.vue'
+import status from './status.vue'
 import {
   createContact,
   SearchUser,

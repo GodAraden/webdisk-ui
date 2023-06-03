@@ -1,6 +1,6 @@
 <template>
-  <div class="login-bg">
-    <div class="login-box m-auto p-8 rounded-xl shadow-xl ref-bgc">
+  <div class="info-bg">
+    <div class="info-box m-auto p-8 rounded-xl shadow-xl ref-bgc">
       <a-typography-title :heading="4">
         <a-button
           type="text"
@@ -44,7 +44,7 @@
         </a-descriptions-item>
       </a-descriptions>
 
-      <a-row class="login-tool">
+      <a-row class="info-tool">
         <a-col flex="auto"> </a-col>
         <a-col flex="100px" class="flex justify-around">
           <a-button type="text" class="text-btn" @click="changeLocale">
@@ -125,18 +125,18 @@ onFetchData()
 </script>
 
 <style lang="less">
-.login-bg {
+.info-bg {
   width: 100vw;
   height: 100vh;
   background: url(/login-bg.svg);
 }
 
-.login-box {
+.info-box {
   position: relative;
   top: 10%;
   height: 70%;
   width: 38.2%;
-  .login-tool {
+  .info-tool {
     position: absolute;
     width: calc(100% - 64px);
     bottom: 10px;

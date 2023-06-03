@@ -15,6 +15,7 @@ export interface ContactListItem {
   status: 'pending' | 'resolve' | 'reject'
 }
 
+// 发送好友申请
 export interface CreateContactParams {
   id: string
 }
@@ -27,6 +28,7 @@ export async function createContact(params: CreateContactParams) {
   return data
 }
 
+// 删除好友申请
 export interface DeleteContactParams {
   id: number
 }
@@ -38,6 +40,7 @@ export async function deleteContact(params: DeleteContactParams) {
   return data
 }
 
+// 更新好友申请：拒绝、接受
 export interface UpdateContactParams {
   id: number
   status: string
@@ -52,6 +55,7 @@ export async function updateContact(params: UpdateContactParams) {
   return data
 }
 
+// 获取好友列表、申请列表
 export type ContactListRes = AxiosData<ContactListItem[]>
 export async function getRecvList() {
   const { data } = await axios.get<ContactListRes>('/api/contact/receive')
@@ -66,6 +70,7 @@ export async function getFriendList() {
   return data
 }
 
+// 搜索时获取用户列表
 export interface SearchUserListParams {
   keyword: string
 }
