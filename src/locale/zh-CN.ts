@@ -2,6 +2,7 @@ import auth from './auth/zh-CN'
 import tips from './tips/zh-CN'
 import userManage from './user-manage/zh-CN'
 import contactList from './contact-list/zh-CN'
+import logManage from './log-manage/zh-CN'
 
 export default {
   welcome: '欢迎使用 Araden 的网盘',
@@ -18,5 +19,6 @@ export default {
   ...auth,
   ...tips,
   ...userManage,
-  ...contactList
+  ...contactList,
+  ...logManage
 }

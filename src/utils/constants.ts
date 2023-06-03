@@ -1,6 +1,7 @@
 import { i18n } from '@/locale'
 import { TableColumnData } from '@arco-design/web-vue'
 import { computed } from 'vue'
+import { bytesToSize } from './format'
 
 const userlistColumns = computed(() => {
   const columns: TableColumnData[] = [
@@ -81,4 +82,33 @@ const inviteCodeColumns = computed(() => {
   return columns
 })
 
-export { userlistColumns, inviteCodeColumns }
+const logListColumns = computed(() => {
+  const columns: TableColumnData[] = [
+    {
+      title: i18n.global.t('logManage.columns.filename'),
+      dataIndex: 'filename'
+    },
+    {
+      title: i18n.global.t('logManage.columns.size'),
+      dataIndex: 'size',
+      render({ record }) {
+        return `${bytesToSize(record.size)}`
+      }
+    },
+    {
+      title: i18n.global.t('logManage.columns.updated'),
+      dataIndex: 'updated',
+      render({ record }) {
+        return `${new Date(record.updated).toLocaleString()}`
+      }
+    },
+    {
+      title: i18n.global.t('logManage.columns.operations'),
+      slotName: 'operation'
+    }
+  ]
+  columns.forEach((v) => (v.align = 'center'))
+  return columns
+})
+
+export { userlistColumns, inviteCodeColumns, logListColumns }

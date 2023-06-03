@@ -78,10 +78,8 @@
 
       <a-layout-content class="layout-content">
         <router-view v-slot="{ Component, route }">
-          <transition name="fade" mode="out-in" appear>
-            <keep-alive>
-              <component :is="Component" :key="route.fullPath" />
-            </keep-alive>
+          <transition name="page" mode="out-in" appear>
+            <component :is="Component" :key="route.fullPath" />
           </transition>
         </router-view>
       </a-layout-content>

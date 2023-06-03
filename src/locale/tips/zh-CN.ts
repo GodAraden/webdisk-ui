@@ -22,6 +22,8 @@ export default {
   'tips.contactList.rejectSuccess': '拒绝成功',
   'tips.contactList.deleteSuccess': '删除成功',
 
+  'tips.logManage.removeSuccess': '删除成功',
+
   'notification.contact.title': '你收到了 {count} 条好友申请',
   'notification.contact.content': '去 好友列表 - 我收到的 查看吧'
 }
