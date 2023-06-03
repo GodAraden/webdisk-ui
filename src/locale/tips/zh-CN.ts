@@ -15,5 +15,13 @@ export default {
   'tips.userinfo.EditSuccess': '修改成功',
   'tips.userManage.DeleteSuccess': '删除成功',
   'tips.userManage.DeleteSelf': '不能删除自己哦 ~',
-  'tips.inviteList.CreateSuccess': '创建成功'
+  'tips.inviteList.CreateSuccess': '创建成功',
+
+  'tips.contactList.sendSuccess': '发送成功',
+  'tips.contactList.resolveSuccess': '接受成功',
+  'tips.contactList.rejectSuccess': '拒绝成功',
+  'tips.contactList.deleteSuccess': '删除成功',
+
+  'notification.contact.title': '你收到了 {count} 条好友申请',
+  'notification.contact.content': '去 好友列表 - 我收到的 查看吧'
 }

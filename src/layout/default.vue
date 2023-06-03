@@ -90,14 +90,31 @@
 </template>
 
 <script lang="ts" setup>
+import { Notification } from '@arco-design/web-vue'
+
 import AsideMenu from '@/components/menu.vue'
 import useLocale from '@/hooks/useLocale'
 import useTheme from '@/hooks/useTheme'
 import { useUserStore } from '@/store'
+import { i18n } from '@/locale'
+import { getRecvList } from '@/api/contact'
 
 const { changeLocale } = useLocale()
 const { changeTheme } = useTheme()
 const { onLogout } = useUserStore()
+
+const onFetchContactInvitation = async () => {
+  const { data } = await getRecvList()
+  if (!data.length) return
+  Notification.info({
+    id: 'contact',
+    title: i18n.global.t('notification.contact.title', { count: data.length }),
+    content: i18n.global.t('notification.contact.content'),
+    closable: true
+  })
+}
+
+onFetchContactInvitation()
 </script>
 
 <style lang="less">

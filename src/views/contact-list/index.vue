@@ -22,18 +22,72 @@
           </a-button>
         </template>
 
-        <a-tab-pane key="friendlist" :title="$t('contactlist.friends.title')">
-          <contactlist field="from" :data="friendList" />
+        <a-tab-pane :key="TABS[0]" :title="$t('contactlist.friends.title')">
+          <contactlist field="to" :data="friendList">
+            <template #action="{ record }">
+              <a-button type="text" shape="round" status="danger">
+                <template #icon>
+                  <icon-delete />
+                </template>
+                {{ $t('contactlist.operations.friend.delete') }}
+              </a-button>
+            </template>
+          </contactlist>
         </a-tab-pane>
-        <a-tab-pane
-          key="invitelist"
-          :title="$t('contactlist.invitations.title')"
-        >
-          <a-divider> {{ $t('contactlist.invitations.received') }}</a-divider>
-          <contactlist field="from" :data="recvList" />
 
-          <a-divider> {{ $t('contactlist.invitations.sent') }}</a-divider>
-          <contactlist field="to" :data="sendList" />
+        <a-tab-pane :key="TABS[1]" :title="$t('contactlist.invitations.send')">
+          <contactlist field="to" :data="sendList">
+            <template #action="{ record }">
+              <a-space>
+                <contactstatus :status="record.status" />
+                <a-button
+                  type="text"
+                  shape="round"
+                  status="danger"
+                  :disabled="record.status === 'resolve'"
+                  @click="() => onDeleteContact(record.id)"
+                >
+                  <template #icon>
+                    <icon-delete />
+                  </template>
+                  {{ $t('contactlist.operations.invitations.delete') }}
+                </a-button>
+              </a-space>
+            </template>
+          </contactlist>
+        </a-tab-pane>
+
+        <a-tab-pane
+          :key="TABS[2]"
+          :title="$t('contactlist.invitations.received')"
+        >
+          <contactlist field="from" :data="recvList">
+            <template #action="{ record }">
+              <a-space v-if="record.status === 'pending'">
+                <a-button
+                  type="outline"
+                  status="warning"
+                  @click="() => onUpdateContact(record.id, 'reject')"
+                >
+                  <template #icon>
+                    <icon-close />
+                  </template>
+                  {{ $t('contactlist.operations.invitations.reject') }}
+                </a-button>
+                <a-button
+                  type="outline"
+                  status="success"
+                  @click="() => onUpdateContact(record.id, 'resolve')"
+                >
+                  <template #icon>
+                    <icon-check />
+                  </template>
+                  {{ $t('contactlist.operations.invitations.resolve') }}
+                </a-button>
+              </a-space>
+              <contactstatus v-else :status="record.status" />
+            </template>
+          </contactlist>
         </a-tab-pane>
       </a-tabs>
     </div>
@@ -78,10 +132,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { Message } from '@arco-design/web-vue'
 
 import breadcrumb from '@/components/breadcrumb.vue'
 import contactlist from '@/components/contactlist.vue'
+import contactstatus from '@/components/contactstatus.vue'
 import {
   createContact,
   SearchUser,
@@ -89,13 +145,21 @@ import {
   getFriendList,
   getRecvList,
   getSendList,
-  getSearchUserList
+  getSearchUserList,
+  deleteContact,
+  updateContact
 } from '@/api/contact'
 
-const DEFAULT_KEY = 'friendlist'
+const TABS = ['friendList', 'sendList', 'recvList']
+const DEFAULT_KEY = TABS[0]
 const { t } = useI18n()
+const route = useRoute()
 
-const active_key = ref(DEFAULT_KEY)
+const active_key = ref(
+  TABS.includes(route.query.tab as string)
+    ? (route.query.tab as string)
+    : DEFAULT_KEY
+)
 const friendList = ref<ContactListItem[]>()
 const recvList = ref<ContactListItem[]>()
 const sendList = ref<ContactListItem[]>()
@@ -129,17 +193,35 @@ const onFetchSearchList = async (keyword: string) => {
 const onCreateContact = async (id: string) => {
   const { data, message } = await createContact({ id })
   if (!data) return
-  Message.success(t(`tips.userManage.${message}`))
+  Message.success(t(`tips.contactList.${message}`))
+  searchList.value = searchList.value.filter((v) => v.id !== id)
+  onFetchSendList()
+}
+
+const onDeleteContact = async (id: number) => {
+  const { data, message } = await deleteContact({ id })
+  if (!data) return
+  Message.success(t(`tips.contactList.${message}`))
+  onFetchSendList()
+}
+
+const onUpdateContact = async (id: number, status: string) => {
+  const { data, message } = await updateContact({ id, status })
+  if (!data) return
+  Message.success(t(`tips.contactList.${message}`))
+  onFetchRecvList()
 }
 
 const onFetchData = async (key: string) => {
   switch (key) {
-    case 'friendlist':
+    case TABS[0]:
       onFetchFriendList()
       break
-    case 'invitelist':
-      onFetchRecvList()
+    case TABS[1]:
       onFetchSendList()
+      break
+    case TABS[2]:
+      onFetchRecvList()
       break
   }
 }

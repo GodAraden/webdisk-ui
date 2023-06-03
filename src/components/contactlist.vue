@@ -1,5 +1,5 @@
 <template>
-  <a-list :bordered="false">
+  <a-list :max-height="480" scrollbar :bordered="false">
     <a-list-item v-for="item in data" :key="item.id">
       <a-list-item-meta
         :title="item[field].username"
@@ -12,9 +12,7 @@
         </template>
       </a-list-item-meta>
       <template #actions>
-        <v-slot name="action">
-          <icon-delete />
-        </v-slot>
+        <slot name="action" :record="item"> </slot>
       </template>
     </a-list-item>
   </a-list>

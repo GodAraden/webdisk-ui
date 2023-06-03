@@ -7,11 +7,12 @@ export interface ContactUser {
 export type SearchUser = ContactUser & { id: string }
 
 export interface ContactListItem {
-  id: string
+  id: number
   fromId: string
   toId: string
   from: ContactUser
   to: ContactUser
+  status: 'pending' | 'resolve' | 'reject'
 }
 
 export interface CreateContactParams {
