@@ -54,13 +54,13 @@
         <a-divider style="height: 84px" direction="vertical" />
         <a-col :flex="'86px'" style="text-align: right">
           <a-space direction="vertical" :size="18">
-            <a-button type="primary" @click="search">
+            <a-button type="primary" @click="onSearchData">
               <template #icon>
                 <icon-search />
               </template>
               {{ $t('logManage.form.search') }}
             </a-button>
-            <a-button @click="reset">
+            <a-button @click="formModel = initFormModel()">
               <template #icon>
                 <icon-refresh />
               </template>
@@ -75,6 +75,7 @@
         :columns="logListColumns"
         :data="logListData"
         :pagination="pagination"
+        @page-change="onPageChange"
       >
         <template #operation="{ record }">
           <a-space>
@@ -89,7 +90,7 @@
             <a-button
               type="text"
               size="small"
-              @click="() => getSpecificLog(record.filename)"
+              @click="() => downloadLog(record.filename)"
             >
               {{ $t('logManage.columns.operations.download') }}
             </a-button>
@@ -113,14 +114,22 @@ import { useI18n } from 'vue-i18n'
 import { Message, Modal } from '@arco-design/web-vue'
 
 import breadcrumb from '@/components/breadcrumb.vue'
-import { LogListItem, deleteLog, getLogList, getSpecificLog } from '@/api/log'
+import {
+  LogListItem,
+  deleteLog,
+  getLogList,
+  getSpecificLog,
+  downloadLog
+} from '@/api/log'
 import { logListColumns } from '@/utils/constants'
+import { h } from 'vue'
 
 const { t } = useI18n()
 
 const initPagination = () => ({
   current: 1,
-  pageSize: 5
+  pageSize: 5,
+  total: 0
 })
 
 const initFormModel = () => ({
@@ -133,15 +142,25 @@ const pagination = ref(initPagination())
 const formModel = ref(initFormModel())
 const logListData = ref<LogListItem[]>()
 
-const search = () => {}
-const reset = () => {
-  formModel.value = initFormModel()
+const onFetchData = async () => {
+  const { data } = await getLogList({
+    current: pagination.value.current,
+    pageSize: pagination.value.pageSize,
+    ...formModel.value
+  })
+  if (!data) return
+  logListData.value = data.data
+  pagination.value.total = data.total
 }
 
-const onFetchData = async () => {
-  const { data } = await getLogList({ ...pagination.value, ...formModel.value })
-  if (!data) return
-  logListData.value = data
+const onSearchData = () => {
+  pagination.value = initPagination()
+  onFetchData()
+}
+
+const onPageChange = (current: number) => {
+  pagination.value.current = current
+  onFetchData()
 }
 
 const onDeleteLog = async (filename: string) => {
@@ -152,12 +171,21 @@ const onDeleteLog = async (filename: string) => {
 }
 
 const onShowLog = async (filename: string) => {
-  const data = await getSpecificLog(filename)
+  const { data } = await getSpecificLog(filename)
 
   Modal.info({
     title: filename,
-    content: data, //.split(/\n\n/g)
-    width: 1000
+    content: () =>
+      h(
+        'div',
+        {
+          style: {
+            height: '61.8vh',
+            overflow: 'scroll'
+          }
+        },
+        data.data
+      )
   })
 }
 
