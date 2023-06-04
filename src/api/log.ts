@@ -24,7 +24,9 @@ export async function getLogList(params: GetLogListParams) {
 // 删除日志
 export type DeleteLogRes = AxiosData
 export async function deleteLog(filename: string) {
-  const { data } = await axios.delete<DeleteLogRes>(`/api/log/${filename}`)
+  const { data } = await axios.delete<DeleteLogRes>(`/api/log/${filename}`, {
+    responseType: 'arraybuffer'
+  })
   return data
 }
 
