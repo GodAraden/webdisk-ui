@@ -10,6 +10,7 @@ export interface UserFile {
   sign: string
   type: string
   status: number
+  updatedAt: string
 }
 
 export interface Chunk {
@@ -72,26 +73,15 @@ export async function downloadChunk(md5: string) {
   return data
 }
 
-// 文件合并
-export function mergeBlobChunk(arrays: Uint8Array[]) {
-  if (!arrays.length) return
-  const totalLength = arrays.reduce((acc, value) => acc + value.length, 0)
-  const result = new Uint8Array(totalLength)
-  let length = 0
-  for (const array of arrays) {
-    result.set(array, length)
-    length += array.length
-  }
-  return result
+// 获取文件列表
+export interface FilesListParams {
+  keyword?: string
+  path: string
+  sortBy: string
+  orderBy: string
 }
-
-// 文件下载
-export function saveAs(filename = '', buffers: BlobPart) {
-  const blob = new Blob([buffers], { type: 'application/octet-stream' })
-  const blobUrl = URL.createObjectURL(blob)
-  const a: HTMLAnchorElement = document.createElement('a')
-  a.download = filename
-  a.href = blobUrl
-  a.click()
-  URL.revokeObjectURL(blobUrl)
+export type FilesListRes = AxiosData<UserFile[]>
+export async function getFilesList(params: FilesListParams) {
+  const { data } = await axios.post('/api/file/list', params)
+  return data
 }

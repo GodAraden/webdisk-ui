@@ -20,3 +20,9 @@ interface User {
 }
 
 type Role = 'user' | 'admin'
+
+interface Pagination {
+  current: number
+  pageSize: number
+  total?: number
+}
