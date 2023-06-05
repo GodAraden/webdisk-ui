@@ -111,4 +111,28 @@ const logListColumns = computed(() => {
   return columns
 })
 
-export { userlistColumns, inviteCodeColumns, logListColumns }
+const filesListColumns = computed(() => {
+  const columns: TableColumnData[] = [
+    {
+      title: i18n.global.t('logManage.columns.filename'),
+      dataIndex: 'name'
+    },
+    {
+      title: i18n.global.t('logManage.columns.size'),
+      dataIndex: 'size',
+      render({ record }) {
+        return `${bytesToSize(record.size)}`
+      }
+    },
+    {
+      title: i18n.global.t('logManage.columns.updated'),
+      dataIndex: 'updatedAt',
+      render({ record }) {
+        return `${new Date(record.updated).toLocaleString()}`
+      }
+    }
+  ]
+  return columns
+})
+
+export { userlistColumns, inviteCodeColumns, logListColumns, filesListColumns }

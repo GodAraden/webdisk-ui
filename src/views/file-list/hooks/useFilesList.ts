@@ -9,6 +9,7 @@ import {
 } from '@/api/file'
 import useLoading from '@/hooks/useLoading'
 import { createChunk, mergeBlobChunk, saveAs } from '@/utils/file'
+import { Message } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
 import { Ref, inject, provide, reactive, ref, toRefs } from 'vue'
@@ -31,7 +32,7 @@ export interface FilesList {
 
   onSearchFile: () => void
   onDownloadFile: () => void
-  onUploadFile: (file: File) => void
+  onUploadFile: (file: File) => Promise<boolean>
 }
 
 export async function provideFilesList() {
@@ -100,6 +101,13 @@ export async function provideFilesList() {
         })
       })
     )
+
+    if (res.every((chunk) => chunk.data.data)) {
+      Message.success('上传成功')
+      await fetchData()
+    }
+
+    return false
   }
 
   const onDownloadFile = async () => {
