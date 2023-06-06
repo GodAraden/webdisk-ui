@@ -90,3 +90,8 @@ export async function getFileList(params: FileListParams) {
   const { data } = await axios.post<FileListRes>('/api/file/list', params)
   return data
 }
+
+export async function deleteFile(fileId: string) {
+  const { data } = await axios.delete<AxiosData>(`/api/file/${fileId}`)
+  return data
+}

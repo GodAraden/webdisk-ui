@@ -3,6 +3,7 @@ import {
   UserFile,
   createFile,
   createFolder,
+  deleteFile,
   downloadChunk,
   downloadFile,
   getFileList,
@@ -40,6 +41,7 @@ export interface FileList {
   onDownloadFile: (fileId: string) => void
   onCreateFolder: () => void
   onUploadFile: (file: File) => Promise<boolean>
+  onDeleteFile: (fileId: string) => void
 
   onDoubleClickFile: (item: UserFile) => void
 }
@@ -89,7 +91,7 @@ export function provideFileList() {
   fetchData()
 
   const onSearchFile = async () => {
-    await fetchData()
+    fetchData()
   }
 
   const existedFolders = new Set<string>()
@@ -140,7 +142,7 @@ export function provideFileList() {
 
     if (res.every((chunk) => chunk.data.data)) {
       Message.success(i18n.global.t('tips.fileList.uploadSuccess'))
-      await fetchData()
+      fetchData()
     }
 
     return false
@@ -176,7 +178,7 @@ export function provideFileList() {
     })
     if (!data) return
     Message.success(i18n.global.t('tips.fileList.createSuccess'))
-    await fetchData()
+    fetchData()
   }
 
   const onDownloadFile = async (fileId: string) => {
@@ -192,6 +194,13 @@ export function provideFileList() {
     const res = mergeBlobChunk(buffers)
 
     saveAs(data.name, res)
+  }
+
+  const onDeleteFile = async (fileId: string) => {
+    const { data, message } = await deleteFile(fileId)
+    if (!data) return
+    Message.success(i18n.global.t(`tips.fileList.${message}`))
+    fetchData()
   }
 
   const onDoubleClickFile = (item: UserFile) => {
@@ -222,7 +231,7 @@ export function provideFileList() {
   watchDebounced(
     currentPath,
     async () => {
-      await fetchData()
+      fetchData()
     },
     { debounce: 500, maxWait: 1000, deep: true }
   )
@@ -239,7 +248,8 @@ export function provideFileList() {
     onDownloadFile,
     onUploadFile,
     onDoubleClickFile,
-    onCreateFolder
+    onCreateFolder,
+    onDeleteFile
   }
   provide(fileListKey, returnState)
   return returnState

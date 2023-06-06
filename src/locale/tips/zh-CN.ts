@@ -28,6 +28,7 @@ export default {
 
   'tips.fileList.uploadSuccess': '上传成功',
   'tips.fileList.createSuccess': '文件夹创建成功',
+  'tips.fileList.deleteSuccess': '删除成功',
 
   'notification.contact.title': '你收到了 {count} 条好友申请',
   'notification.contact.content': '去 好友列表 - 我收到的 查看吧'

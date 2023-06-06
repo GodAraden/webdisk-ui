@@ -13,6 +13,9 @@
       <a-button type="text" @click="() => onDownloadFile(record.id)">
         {{ $t('filelist.columns.operations.download') }}
       </a-button>
+      <a-button type="text" @click="() => onDeleteFile(record.id)">
+        {{ $t('filelist.columns.operations.delete') }}
+      </a-button>
     </template>
     <template #filename="{ record }">
       <a-space
@@ -31,7 +34,8 @@ import { fileListColumns } from '@/utils/constants'
 import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
-const { loading, renderData, onDownloadFile, onDoubleClickFile } = useFileList()
+const { loading, renderData, onDownloadFile, onDoubleClickFile, onDeleteFile } =
+  useFileList()
 </script>
 
 <style lang="less" scoped>

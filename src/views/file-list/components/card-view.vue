@@ -56,7 +56,7 @@
               {{ $t('filelist.contextMenu.info') }}
             </a-doption>
             <hr />
-            <a-doption>
+            <a-doption @click="() => onDeleteFile(item.id)">
               <icon-delete />
               {{ $t('filelist.contextMenu.delete') }}
             </a-doption>
@@ -71,7 +71,8 @@
 import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
-const { loading, renderData, onDownloadFile, onDoubleClickFile } = useFileList()
+const { loading, renderData, onDownloadFile, onDoubleClickFile, onDeleteFile } =
+  useFileList()
 </script>
 
 <style lang="less" scoped>
