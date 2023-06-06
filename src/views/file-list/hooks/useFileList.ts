@@ -42,7 +42,7 @@ export function provideFileList() {
 
   // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
-  const currentView = ref('list')
+  const currentView = ref('card')
   const renderData = ref<UserFile[]>([])
 
   const filter = reactive({

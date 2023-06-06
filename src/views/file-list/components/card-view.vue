@@ -1,26 +1,37 @@
 <template>
-  <a-list
-    :grid-props="{ gutter: [20, 20], sm: 24, md: 12, lg: 8, xl: 6 }"
-    :data="renderData"
-    :bordered="false"
+  <a-grid
+    :cols="7"
+    :colGap="24"
+    :rowGap="16"
+    :style="{ maxHeight: '70vh', overflowY: 'scroll' }"
+    class="grid-demo-grid"
   >
-    <template #item="{ item }">
-      <a-card hoverable>
+    <a-grid-item v-for="item in renderData" :key="item.id">
+      <a-card :bordered="false" hoverable>
         <template #cover>
-          <img
-            :style="{ width: '100%', transform: 'translateY(-20px)' }"
-            alt="dessert"
-            src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a20012a2d4d5b9db43dfc6a01fe508c0.png~tplv-uwbnlip3yd-webp.webp"
-          />
+          <div class="w-12 h-12 mx-auto my-3 mb-0">
+            <img :src="`/icon/${typeToIcon(item.type)}.svg`" />
+          </div>
         </template>
-        <a-card-meta :title="item.name"> </a-card-meta>
+        <p class="ellipsis" :title="item.name"> {{ item.name }} </p>
       </a-card>
-    </template>
-  </a-list>
+    </a-grid-item>
+  </a-grid>
 </template>
 
 <script lang="ts" setup>
+import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
 const { renderData } = useFileList()
 </script>
+
+<style lang="less" scoped>
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  cursor: default;
+}
+</style>
