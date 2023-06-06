@@ -19,5 +19,17 @@ export default {
   'filelist.columns.operations': '操作',
   'filelist.columns.operations.download': '下载',
   'filelist.columns.operations.view': '查看',
-  'filelist.columns.operations.delete': '删除'
+  'filelist.columns.operations.delete': '删除',
+
+  'filelist.contextMenu.download': '下载',
+  'filelist.contextMenu.open': '打开',
+  'filelist.contextMenu.share': '分享',
+
+  'filelist.contextMenu.copy': '复制',
+  'filelist.contextMenu.cut': '剪切',
+  'filelist.contextMenu.move': '移动',
+  'filelist.contextMenu.rename': '重命名',
+  'filelist.contextMenu.info': '详细信息',
+
+  'filelist.contextMenu.delete': '删除'
 }
