@@ -17,10 +17,3 @@ import { provideFileList } from './hooks/useFileList'
 
 provideFileList()
 </script>
-
-<style lang="less">
-.file-list-container {
-  height: 80vh;
-  overflow-y: scroll;
-}
-</style>

@@ -116,6 +116,7 @@ const fileListColumns = computed(() => {
     {
       title: i18n.global.t('filelist.columns.name'),
       dataIndex: 'name',
+      width: 500,
       render({ record }) {
         return h(Space, [
           h('img', {

@@ -12,7 +12,7 @@ import { createChunk, mergeBlobChunk, saveAs } from '@/utils/file'
 import { Message } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
-import { Ref, inject, provide, reactive, ref, toRefs } from 'vue'
+import { Ref, inject, provide, reactive, ref, toRefs, watch } from 'vue'
 
 const fileListKey = Symbol('FILELIST')
 
@@ -128,12 +128,27 @@ export async function provideFileList() {
     saveAs(data.name, res)
   }
 
+  watch(filter, async () => {
+    renderData.value.sort((a, b) => {
+      let res = 0
+      if (filter.sortBy === 'name') {
+        res = a.name.localeCompare(b.name)
+      } else if (filter.sortBy === 'size') {
+        res = a.size - b.size
+      } else if (filter.sortBy === 'updatedAt') {
+        res = +new Date(a.updatedAt) - +new Date(b.updatedAt)
+      }
+      if (filter.orderBy === 'desc') res = -res
+      return res
+    })
+  })
+
   watchDebounced(
-    filter,
+    currentPath,
     async () => {
       await fetchData()
     },
-    { debounce: 500, maxWait: 1000 }
+    { debounce: 500, maxWait: 1000, deep: true }
   )
 
   const returnState: FileList = {
