@@ -5,7 +5,7 @@ import { useCycleList } from '@vueuse/core'
 // 将 国际化locale变量 和 切换这个变量的函数 封装
 export default function useLocale() {
   const locales = ['zh-CN', 'en-US'] as const
-  const { locale, t } = useI18n()
+  const { locale } = useI18n()
 
   const currentLocale = computed(() => {
     return locale.value

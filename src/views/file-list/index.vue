@@ -3,7 +3,8 @@
     <breadcrumb :items="['menu.filelist']" />
     <div class="p-2 ref-bgc file-list-container">
       <navbar />
-      <component :is="listView"></component>
+      <list-view v-if="currentView === 'list'" />
+      <card-view v-else-if="currentView === 'card'" />
     </div>
   </div>
 </template>
@@ -15,5 +16,5 @@ import listView from './components/list-view.vue'
 import cardView from './components/card-view.vue'
 import { provideFileList } from './hooks/useFileList'
 
-provideFileList()
+const { currentView } = provideFileList()
 </script>

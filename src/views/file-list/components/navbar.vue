@@ -75,7 +75,7 @@
 
     <a-divider direction="vertical"></a-divider>
 
-    <a-col flex="240px">
+    <a-col flex="300px">
       <a-row>
         <a-dropdown>
           <a-button type="text" class="file-nav-btn">
@@ -106,6 +106,20 @@
             </a-dgroup>
           </template>
         </a-dropdown>
+
+        <a-tooltip :content="$t(`filelist.navbar.view.${currentView}`)">
+          <a-button
+            type="text"
+            class="file-nav-btn"
+            @click="currentView = next()"
+          >
+            <template #icon>
+              <icon-list v-if="currentView === 'card'" />
+              <icon-apps v-else-if="currentView === 'list'" />
+            </template>
+          </a-button>
+        </a-tooltip>
+
         <a-col flex="auto">
           <a-input-search
             size="small"
@@ -116,21 +130,20 @@
       </a-row>
     </a-col>
   </a-row>
-
-  <icon-list />
-  <icon-apps />
 </template>
 
 <script lang="ts" setup>
-import { useRefHistory } from '@vueuse/core'
+import { useRefHistory, useCycleList } from '@vueuse/core'
 import { useFileList } from '../hooks/useFileList'
 
-const { currentPath, onUploadFile, fetchData, sortBy, orderBy } = useFileList()
+const { currentPath, fetchData, sortBy, orderBy, currentView } = useFileList()
 
 const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
   capacity: 10,
   deep: true
 })
+
+const { next } = useCycleList(['list', 'card'], { initialValue: currentView })
 </script>
 
 <style lang="less" scoped>

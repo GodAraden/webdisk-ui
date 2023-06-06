@@ -9,6 +9,9 @@ export default {
   'filelist.navbar.filter.sortBy': '排序方式',
   'filelist.navbar.filter.orderBy': '排序方向',
 
+  'filelist.navbar.view.card': '切换为列表视图',
+  'filelist.navbar.view.list': '切换为宫格视图',
+
   // columns
   'filelist.columns.updatedAt': '更新时间',
   'filelist.columns.size': '大小',

@@ -24,6 +24,7 @@ export interface FileList {
   orderBy: Ref<string>
 
   currentPath: Ref<string[]>
+  currentView: Ref<string>
   renderData: Ref<UserFile[]>
 
   fetchData: () => void
@@ -35,12 +36,13 @@ export interface FileList {
   onUploadFile: (file: File) => Promise<boolean>
 }
 
-export async function provideFileList() {
+export function provideFileList() {
   const { loading, setLoading } = useLoading()
   const queryKeyword = ref('')
 
   // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
+  const currentView = ref('list')
   const renderData = ref<UserFile[]>([])
 
   const filter = reactive({
@@ -156,6 +158,7 @@ export async function provideFileList() {
     queryKeyword,
     ...toRefs(filter),
     currentPath,
+    currentView,
     renderData,
     fetchData,
     onSearchFile,
