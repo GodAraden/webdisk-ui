@@ -27,9 +27,11 @@ export default {
 
   'filelist.contextMenu.copy': '复制',
   'filelist.contextMenu.cut': '剪切',
-  'filelist.contextMenu.move': '移动',
   'filelist.contextMenu.rename': '重命名',
   'filelist.contextMenu.info': '详细信息',
 
-  'filelist.contextMenu.delete': '删除'
+  'filelist.contextMenu.delete': '删除',
+
+  'filelist.footer.total': '共 {total} 项',
+  'filelist.footer.newFolder': '新建文件夹'
 }

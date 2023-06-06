@@ -1,21 +1,6 @@
 <template>
-  <!-- <a-upload @before-upload="onUploadFile">
-    <template #icon>
-      <icon-upload />
-    </template>
-    上传文件
-  </a-upload> -->
-  <!--     <a-button-group size="small" shape="round" type="outline">
-      <a-button>
-        <template #icon>
-          <icon-plus />
-        </template>
-        新建文件夹
-      </a-button>
-      <a-button>新建文件</a-button>
-    </a-button-group> -->
-
   <a-row :align="'center'">
+    <!-- 设置1px但是这里面只有一个元素，所以不会截断换行，这样能把a-col撑开到此元素应有的宽度 -->
     <a-col flex="1px">
       <a-button-group type="text">
         <a-button class="file-nav-btn" :disabled="!canUndo" @click="undo">

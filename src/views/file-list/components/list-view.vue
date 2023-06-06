@@ -5,6 +5,7 @@
     :loading="loading"
     :bordered="false"
     :pagination="false"
+    :style="{ height: '70vh' }"
     :scroll="{ maxHeight: '70vh' }"
     :data="renderData"
     :columns="fileListColumns"

@@ -3,7 +3,7 @@
     :cols="7"
     :colGap="24"
     :rowGap="16"
-    :style="{ maxHeight: '70vh', overflowY: 'scroll' }"
+    :style="{ height: '70vh', overflowY: 'scroll' }"
     class="grid-demo-grid"
   >
     <a-grid-item v-for="item in renderData" :key="item.id">
@@ -37,10 +37,6 @@
           <a-doption>
             <icon-scissor />
             {{ $t('filelist.contextMenu.cut') }}
-          </a-doption>
-          <a-doption>
-            <icon-export />
-            {{ $t('filelist.contextMenu.move') }}
           </a-doption>
           <a-doption>
             <icon-font-colors />
