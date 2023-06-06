@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb :items="['menu.filelist']" />
-    <div class="p-2 ref-bgc file-list-container">
+    <div class="p-2 ref-bgc shadow-md file-list-container">
       <navbar />
       <div
         v-if="renderData.length === 0"

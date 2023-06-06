@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb :items="['menu.userManage']" />
-    <div class="p-2 ref-bgc">
+    <div class="p-2 ref-bgc shadow-md">
       <a-tabs
         v-model:active-key="active_key"
         :default-active-key="DEFAULT_KEY"

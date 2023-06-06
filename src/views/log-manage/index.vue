@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb :items="['menu.logManage']" />
-    <div class="p-4 ref-bgc">
+    <div class="p-4 ref-bgc shadow-md">
       <a-row>
         <a-col :flex="1">
           <a-form :model="formModel" label-align="left">

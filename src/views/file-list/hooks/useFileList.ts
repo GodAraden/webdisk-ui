@@ -124,7 +124,7 @@ export function provideFileList() {
       type: file.type,
       sign: MD5(path + (await file.text())).toString()
     })
-    if (!data) return
+    if (!data) return false
 
     const chunkList = createChunk(file)
 
@@ -155,9 +155,16 @@ export function provideFileList() {
         title: i18n.global.t('filelist.footer.newFolder'),
         content: () =>
           h('div', [
-            h('p', i18n.global.t('filelist.footer.newFolder.tips')),
+            h(
+              'p',
+              { class: 'mb-2' },
+              i18n.global.t('filelist.footer.newFolder.tips')
+            ),
             h(Input, {
               'model-value': filename.value,
+              placeholder: i18n.global.t(
+                'filelist.footer.newFolder.placeholder'
+              ),
               onInput: (newVal) => (filename.value = newVal)
             })
           ]),
