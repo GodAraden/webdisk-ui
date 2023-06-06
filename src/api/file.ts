@@ -41,6 +41,13 @@ export async function createFile(params: CreateFileParams) {
   return data
 }
 
+export type CreateFolderParams = CreateFileParams
+export type CreateFolderRes = AxiosData<FileInfoRes>
+export async function createFolder(params: CreateFolderParams) {
+  const { data } = await axios.post<CreateFolderRes>('/api/file/create', params)
+  return data
+}
+
 export interface UploadChunkParams {
   chunk: Blob
   md5: string
@@ -79,6 +86,6 @@ export interface FileListParams {
 }
 export type FileListRes = AxiosData<UserFile[]>
 export async function getFileList(params: FileListParams) {
-  const { data } = await axios.post('/api/file/list', params)
+  const { data } = await axios.post<FileListRes>('/api/file/list', params)
   return data
 }

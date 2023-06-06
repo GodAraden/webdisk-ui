@@ -1,5 +1,7 @@
 const MAX_CHUNK_SIZE = 20 * 1024 * 1024 // 20MB
 
+export const isFilenameValid = /[\\\/\:\*\?\"\<\>\|]/
+
 // 文件切片
 export function createChunk(file: File) {
   const chunkList: Blob[] = []

@@ -2,17 +2,24 @@ import {
   FileListParams,
   UserFile,
   createFile,
+  createFolder,
   downloadChunk,
   downloadFile,
   getFileList,
   uploadChunk
 } from '@/api/file'
 import useLoading from '@/hooks/useLoading'
-import { createChunk, mergeBlobChunk, saveAs } from '@/utils/file'
-import { Message } from '@arco-design/web-vue'
+import { i18n } from '@/locale'
+import {
+  createChunk,
+  isFilenameValid,
+  mergeBlobChunk,
+  saveAs
+} from '@/utils/file'
+import { Input, Message, Modal } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
-import { Ref, inject, provide, reactive, ref, toRefs, watch } from 'vue'
+import { Ref, h, inject, provide, reactive, ref, toRefs, watch } from 'vue'
 
 const fileListKey = Symbol('FILELIST')
 
@@ -33,6 +40,7 @@ export interface FileList {
 
   onSearchFile: () => void
   onDownloadFile: (fileId: string) => void
+  onCreateFolder: () => void
   onUploadFile: (file: File) => Promise<boolean>
 }
 
@@ -70,7 +78,10 @@ export function provideFileList() {
     }
 
     const { data } = await getFileList(queryParams)
-    renderData.value = data
+    renderData.value = [
+      ...data.filter((v) => v.type === 'folder'),
+      ...data.filter((v) => v.type !== 'folder')
+    ]
 
     setLoading(false)
   }
@@ -108,11 +119,44 @@ export function provideFileList() {
     )
 
     if (res.every((chunk) => chunk.data.data)) {
-      Message.success('上传成功')
+      Message.success(i18n.global.t('tips.fileList.uploadSuccess'))
       await fetchData()
     }
 
     return false
+  }
+
+  const onCreateFolder = async () => {
+    const name = await new Promise<string>((resolve, reject) => {
+      const filename = ref('')
+      Modal.info({
+        title: i18n.global.t('filelist.footer.newFolder'),
+        content: () =>
+          h('div', [
+            h('p', i18n.global.t('filelist.footer.newFolder.tips')),
+            h(Input, {
+              'model-value': filename.value,
+              onInput: (newVal) => (filename.value = newVal)
+            })
+          ]),
+        onOk: () => resolve(filename.value),
+        onCancel: () => reject('')
+      })
+    })
+
+    if (name === '' || isFilenameValid.test(name)) return
+
+    const path = currentPath.value.join('/')
+    const { data } = await createFolder({
+      path,
+      name,
+      size: 0,
+      type: 'folder',
+      sign: MD5(name).toString()
+    })
+    if (!data) return
+    Message.success(i18n.global.t('tips.fileList.createSuccess'))
+    await fetchData()
   }
 
   const onDownloadFile = async (fileId: string) => {
@@ -143,6 +187,10 @@ export function provideFileList() {
       if (filter.orderBy === 'desc') res = -res
       return res
     })
+    renderData.value = [
+      ...renderData.value.filter((v) => v.type === 'folder'),
+      ...renderData.value.filter((v) => v.type !== 'folder')
+    ]
   })
 
   watchDebounced(
@@ -163,7 +211,8 @@ export function provideFileList() {
     fetchData,
     onSearchFile,
     onDownloadFile,
-    onUploadFile
+    onUploadFile,
+    onCreateFolder
   }
   provide(fileListKey, returnState)
   return returnState

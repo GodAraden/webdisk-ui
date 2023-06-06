@@ -33,5 +33,7 @@ export default {
   'filelist.contextMenu.delete': '删除',
 
   'filelist.footer.total': '共 {total} 项',
-  'filelist.footer.newFolder': '新建文件夹'
+  'filelist.footer.newFolder': '新建文件夹',
+  'filelist.footer.newFolder.placeholder': '请输入新建文件夹名称',
+  'filelist.footer.newFolder.tips': '注意：文件名不能包含特殊字符'
 }

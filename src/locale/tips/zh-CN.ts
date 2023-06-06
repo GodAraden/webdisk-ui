@@ -6,6 +6,8 @@ export default {
   'tips.http.error.PasswordError': '密码错误',
   'tips.http.error.Validation failed': '表单格式校验未通过',
   'tips.http.error.NotLogin': '登陆过期，请重新登录',
+  'tips.http.error.FileExists': '文件或文件夹已存在',
+  'tips.http.error.CreateFileFailed': '创建失败',
 
   'tips.user.LoginSuccess': '登录成功',
   'tips.user.LogoutSuccess': '登出成功',
@@ -23,6 +25,9 @@ export default {
   'tips.contactList.deleteSuccess': '删除成功',
 
   'tips.logManage.removeSuccess': '删除成功',
+
+  'tips.fileList.uploadSuccess': '上传成功',
+  'tips.fileList.createSuccess': '创建成功',
 
   'notification.contact.title': '你收到了 {count} 条好友申请',
   'notification.contact.content': '去 好友列表 - 我收到的 查看吧'

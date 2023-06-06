@@ -7,7 +7,9 @@ export function bytesToSize(bytes: number) {
 }
 
 export function typeToIcon(type: string) {
-  if (type.startsWith('image')) return 'image'
+  // TODO: 格式 - Icon 名转换函数
+  if (type === 'folder') return 'folder'
+  else if (type.startsWith('image')) return 'image'
   else if (type.startsWith('audio')) return 'audio'
   else if (type.startsWith('video')) return 'video'
 

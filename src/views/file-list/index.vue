@@ -13,7 +13,7 @@
           </a-col>
           <a-col flex="auto"> </a-col>
           <a-button-group size="small" shape="round" type="outline">
-            <a-button>
+            <a-button @click="onCreateFolder">
               <template #icon>
                 <icon-plus />
               </template>
@@ -38,5 +38,6 @@ import listView from './components/list-view.vue'
 import cardView from './components/card-view.vue'
 import { provideFileList } from './hooks/useFileList'
 
-const { currentView, onUploadFile, renderData } = provideFileList()
+const { currentView, onUploadFile, renderData, onCreateFolder } =
+  provideFileList()
 </script>
