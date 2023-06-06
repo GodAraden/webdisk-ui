@@ -1,7 +1,7 @@
 import { i18n } from '@/locale'
-import { TableColumnData } from '@arco-design/web-vue'
-import { computed } from 'vue'
-import { bytesToSize } from './format'
+import { Space, TableColumnData } from '@arco-design/web-vue'
+import { computed, h } from 'vue'
+import { bytesToSize, typeToIcon } from './format'
 
 const userlistColumns = computed(() => {
   const columns: TableColumnData[] = [
@@ -115,7 +115,16 @@ const fileListColumns = computed(() => {
   const columns: TableColumnData[] = [
     {
       title: i18n.global.t('filelist.columns.name'),
-      dataIndex: 'name'
+      dataIndex: 'name',
+      render({ record }) {
+        return h(Space, [
+          h('img', {
+            src: `/icon/${typeToIcon(record.type)}.svg`,
+            width: 24
+          }),
+          record.name
+        ])
+      }
     },
     {
       title: i18n.global.t('filelist.columns.size'),
@@ -130,10 +139,6 @@ const fileListColumns = computed(() => {
       render({ record }) {
         return `${new Date(record.updatedAt).toLocaleString()}`
       }
-    },
-    {
-      title: i18n.global.t('filelist.columns.updatedAt'),
-      dataIndex: 'type'
     },
     {
       title: i18n.global.t('filelist.columns.operations'),

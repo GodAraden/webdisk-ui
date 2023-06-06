@@ -1,10 +1,10 @@
 <template>
-  <a-upload @before-upload="onUploadFile">
+  <!-- <a-upload @before-upload="onUploadFile">
     <template #icon>
       <icon-upload />
     </template>
     上传文件
-  </a-upload>
+  </a-upload> -->
   <!--     <a-button-group size="small" shape="round" type="outline">
       <a-button>
         <template #icon>
@@ -17,7 +17,7 @@
 
   <a-row :align="'center'">
     <a-col flex="1px">
-      <a-button-group type="text" class="file-nav-btns">
+      <a-button-group type="text">
         <a-button class="file-nav-btn" :disabled="!canUndo" @click="undo">
           <template #icon>
             <icon-arrow-left />
@@ -72,22 +72,60 @@
         </a-breadcrumb-item>
       </a-breadcrumb>
     </a-col>
+
     <a-divider direction="vertical"></a-divider>
+
     <a-col flex="240px">
-      <a-input-search
-        size="small"
-        placeholder="在本文件夹下检索"
-        @search="(v) => currentPath.push(v)"
-      />
+      <a-row>
+        <a-dropdown>
+          <a-button type="text" class="file-nav-btn">
+            <template #icon>
+              <icon-sort />
+            </template>
+          </a-button>
+          <template #content>
+            <a-dgroup :title="$t('filelist.navbar.filter.sortBy')">
+              <a-doption
+                v-for="key in ['name', 'size', 'updatedAt']"
+                :key="key"
+                @click="sortBy = key"
+              >
+                {{ $t(`filelist.navbar.filter.${key}`) }}
+                <icon-check v-if="sortBy === key" />
+              </a-doption>
+            </a-dgroup>
+            <a-dgroup :title="$t('filelist.navbar.filter.orderBy')">
+              <a-doption
+                v-for="key in ['asc', 'desc']"
+                :key="key"
+                @click="orderBy = key"
+              >
+                {{ $t(`filelist.navbar.filter.${key}`) }}
+                <icon-check v-if="orderBy === key" />
+              </a-doption>
+            </a-dgroup>
+          </template>
+        </a-dropdown>
+        <a-col flex="auto">
+          <a-input-search
+            size="small"
+            placeholder="在本文件夹下检索"
+            @search="(v) => currentPath.push(v)"
+          />
+        </a-col>
+      </a-row>
     </a-col>
   </a-row>
+
+  <icon-list />
+  <icon-apps />
 </template>
 
 <script lang="ts" setup>
 import { useRefHistory } from '@vueuse/core'
 import { useFileList } from '../hooks/useFileList'
 
-const { currentPath, onUploadFile, fetchData } = useFileList()
+const { currentPath, onUploadFile, fetchData, sortBy, orderBy } = useFileList()
 
 const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
   capacity: 10,
@@ -95,22 +133,20 @@ const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
 })
 </script>
 
-<style lang="less">
-.file-nav-btns {
-  .file-nav-btn {
-    color: rgb(var(--gray-8));
-  }
-  .file-nav-btn[disabled] {
-    color: rgb(var(--gray-4));
-  }
-  .file-nav-btn:hover {
-    color: rgb(var(--gray-10));
-    background-color: rgb(var(--gray-2));
-  }
-  .file-nav-btn[disabled]:hover {
-    color: rgb(var(--gray-4));
-    background-color: initial;
-  }
+<style lang="less" scoped>
+.file-nav-btn {
+  color: rgb(var(--gray-8));
+}
+.file-nav-btn[disabled] {
+  color: rgb(var(--gray-4));
+}
+.file-nav-btn:hover {
+  color: rgb(var(--gray-10));
+  background-color: rgb(var(--gray-2));
+}
+.file-nav-btn[disabled]:hover {
+  color: rgb(var(--gray-4));
+  background-color: initial;
 }
 
 .breadcrumb-item {
@@ -120,5 +156,15 @@ const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
     transition: color 0.1s linear;
     color: rgb(var(--arcoblue-5));
   }
+}
+
+:deep(.arco-input-search) {
+  background-color: var(--color-menu-light-bg);
+  border-color: var(--color-neutral-3);
+}
+
+:deep(.arco-input-focus) {
+  background-color: var(--color-menu-light-bg);
+  border-color: rgb(var(--arcoblue-5));
 }
 </style>

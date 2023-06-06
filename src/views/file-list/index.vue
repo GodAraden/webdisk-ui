@@ -1,7 +1,7 @@
 <template>
   <div>
     <breadcrumb :items="['menu.filelist']" />
-    <div class="p-2 ref-bgc">
+    <div class="p-2 ref-bgc file-list-container">
       <navbar />
       <component :is="listView"></component>
     </div>
@@ -17,3 +17,10 @@ import { provideFileList } from './hooks/useFileList'
 
 provideFileList()
 </script>
+
+<style lang="less">
+.file-list-container {
+  height: 80vh;
+  overflow-y: scroll;
+}
+</style>

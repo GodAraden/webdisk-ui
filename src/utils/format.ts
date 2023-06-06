@@ -5,3 +5,11 @@ export function bytesToSize(bytes: number) {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
 }
+
+export function typeToIcon(type: string) {
+  if (type.startsWith('image')) return 'image'
+  else if (type.startsWith('audio')) return 'audio'
+  else if (type.startsWith('video')) return 'video'
+
+  return 'unknown'
+}

@@ -1,14 +1,16 @@
 <template>
   <a-table
+    size="small"
+    header-cell-class="table-header-cell"
     :loading="loading"
     :bordered="false"
-    size="small"
-    :columns="fileListColumns"
-    :data="renderData"
     :pagination="false"
+    :scroll="{ maxHeight: '70vh' }"
+    :data="renderData"
+    :columns="fileListColumns"
   >
     <template #operation="{ record }">
-      <a-button @click="() => onDownloadFile(record.id)">
+      <a-button type="text" @click="() => onDownloadFile(record.id)">
         {{ $t('filelist.columns.operations.download') }}
       </a-button>
     </template>
@@ -21,3 +23,9 @@ import { fileListColumns } from '@/utils/constants'
 
 const { loading, renderData, onDownloadFile } = useFileList()
 </script>
+
+<style lang="less" scoped>
+:deep(.arco-table-th) {
+  background-color: var(--color-menu-light-bg);
+}
+</style>

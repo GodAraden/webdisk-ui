@@ -1,4 +1,4 @@
-const MAX_CHUNK_SIZE = 20 * 1024
+const MAX_CHUNK_SIZE = 20 * 1024 * 1024 // 20MB
 
 // 文件切片
 export function createChunk(file: File) {
