@@ -14,6 +14,7 @@ export interface UserFile {
 }
 
 export interface Chunk {
+  id: number
   md5: string
   size: number
   order: number

@@ -3,7 +3,14 @@
     <breadcrumb :items="['menu.filelist']" />
     <div class="p-2 ref-bgc file-list-container">
       <navbar />
-      <list-view v-if="currentView === 'list'" />
+      <div
+        v-if="renderData.length === 0"
+        class="flex flex-col justify-center"
+        :style="{ height: '70vh' }"
+      >
+        <a-empty />
+      </div>
+      <list-view v-else-if="currentView === 'list'" />
       <card-view v-else-if="currentView === 'card'" />
 
       <a-affix>

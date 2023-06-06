@@ -8,7 +8,12 @@
   >
     <a-grid-item v-for="item in renderData" :key="item.id">
       <a-dropdown trigger="contextMenu" position="br" :unmount-on-close="false">
-        <a-card :bordered="false" hoverable>
+        <a-card
+          :bordered="false"
+          hoverable
+          class="cursor-pointer select-none"
+          @dblclick="() => onDoubleClickFile(item)"
+        >
           <template #cover>
             <div class="w-12 h-12 mx-auto my-3 mb-0">
               <img :src="`/icon/${typeToIcon(item.type)}.svg`" />
@@ -61,7 +66,7 @@
 import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
-const { renderData, onDownloadFile } = useFileList()
+const { renderData, onDownloadFile, onDoubleClickFile } = useFileList()
 </script>
 
 <style lang="less" scoped>

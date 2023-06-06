@@ -42,6 +42,8 @@ export interface FileList {
   onDownloadFile: (fileId: string) => void
   onCreateFolder: () => void
   onUploadFile: (file: File) => Promise<boolean>
+
+  onDoubleClickFile: (item: UserFile) => void
 }
 
 export function provideFileList() {
@@ -100,7 +102,7 @@ export function provideFileList() {
       name: file.name,
       size: file.size,
       type: file.type,
-      sign: MD5(await file.text()).toString()
+      sign: MD5(path + (await file.text())).toString()
     })
     if (!data) return
 
@@ -174,6 +176,12 @@ export function provideFileList() {
     saveAs(data.name, res)
   }
 
+  const onDoubleClickFile = (item: UserFile) => {
+    if (item.type === 'folder') {
+      currentPath.value.push(item.name)
+    }
+  }
+
   watch(filter, async () => {
     renderData.value.sort((a, b) => {
       let res = 0
@@ -212,6 +220,7 @@ export function provideFileList() {
     onSearchFile,
     onDownloadFile,
     onUploadFile,
+    onDoubleClickFile,
     onCreateFolder
   }
   provide(fileListKey, returnState)

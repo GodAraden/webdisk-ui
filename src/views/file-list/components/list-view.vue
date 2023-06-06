@@ -5,8 +5,7 @@
     :loading="loading"
     :bordered="false"
     :pagination="false"
-    :style="{ height: '70vh' }"
-    :scroll="{ maxHeight: '70vh' }"
+    :scroll="{ y: '70vh' }"
     :data="renderData"
     :columns="fileListColumns"
   >
@@ -15,14 +14,24 @@
         {{ $t('filelist.columns.operations.download') }}
       </a-button>
     </template>
+    <template #filename="{ record }">
+      <a-space
+        class="cursor-pointer select-none"
+        @dblclick="() => onDoubleClickFile(record)"
+      >
+        <img :src="`/icon/${typeToIcon(record.type)}.svg`" width="24" />
+        {{ record.name }}
+      </a-space>
+    </template>
   </a-table>
 </template>
 
 <script lang="ts" setup>
-import { useFileList } from '../hooks/useFileList'
 import { fileListColumns } from '@/utils/constants'
+import { typeToIcon } from '@/utils/format'
+import { useFileList } from '../hooks/useFileList'
 
-const { loading, renderData, onDownloadFile } = useFileList()
+const { loading, renderData, onDownloadFile, onDoubleClickFile } = useFileList()
 </script>
 
 <style lang="less" scoped>

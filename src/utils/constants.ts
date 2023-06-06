@@ -1,7 +1,7 @@
 import { i18n } from '@/locale'
-import { Space, TableColumnData } from '@arco-design/web-vue'
-import { computed, h } from 'vue'
-import { bytesToSize, typeToIcon } from './format'
+import { TableColumnData } from '@arco-design/web-vue'
+import { computed } from 'vue'
+import { bytesToSize } from './format'
 
 const userlistColumns = computed(() => {
   const columns: TableColumnData[] = [
@@ -117,21 +117,13 @@ const fileListColumns = computed(() => {
       title: i18n.global.t('filelist.columns.name'),
       dataIndex: 'name',
       width: 500,
-      render({ record }) {
-        return h(Space, [
-          h('img', {
-            src: `/icon/${typeToIcon(record.type)}.svg`,
-            width: 24
-          }),
-          record.name
-        ])
-      }
+      slotName: 'filename'
     },
     {
       title: i18n.global.t('filelist.columns.size'),
       dataIndex: 'size',
       render({ record }) {
-        return `${bytesToSize(record.size)}`
+        return record.size === 0 ? '-' : `${bytesToSize(record.size)}`
       }
     },
     {

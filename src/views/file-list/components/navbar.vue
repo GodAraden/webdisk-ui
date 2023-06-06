@@ -48,7 +48,7 @@
           <icon-right />
         </template>
         <a-breadcrumb-item
-          class="breadcrumb-item"
+          class="breadcrumb-item cursor-pointer"
           v-for="(item, idx) in currentPath"
           @click="currentPath = currentPath.slice(0, idx + 1)"
           :key="idx"
