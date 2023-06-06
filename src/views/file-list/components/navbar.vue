@@ -47,7 +47,7 @@
             </a-doption>
           </template>
         </a-dropdown>
-        <a-button class="file-nav-btn">
+        <a-button class="file-nav-btn" @click="fetchData">
           <template #icon>
             <icon-refresh />
           </template>
@@ -87,7 +87,7 @@
 import { useRefHistory } from '@vueuse/core'
 import { useFileList } from '../hooks/useFileList'
 
-const { currentPath, onUploadFile } = useFileList()
+const { currentPath, onUploadFile, fetchData } = useFileList()
 
 const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
   capacity: 10,

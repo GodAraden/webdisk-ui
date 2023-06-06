@@ -1,9 +1,11 @@
 <template>
   <a-table
+    :loading="loading"
     :bordered="false"
     size="small"
     :columns="fileListColumns"
     :data="renderData"
+    :pagination="false"
   >
     <template #operation="{ record }">
       <a-button @click="() => onDownloadFile(record.id)">
@@ -17,5 +19,5 @@
 import { useFileList } from '../hooks/useFileList'
 import { fileListColumns } from '@/utils/constants'
 
-const { renderData, onDownloadFile } = useFileList()
+const { loading, renderData, onDownloadFile } = useFileList()
 </script>

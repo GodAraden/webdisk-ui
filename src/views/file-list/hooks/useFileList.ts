@@ -45,7 +45,7 @@ export async function provideFileList() {
 
   const filter = reactive({
     sortBy: 'updatedAt',
-    orderBy: 'asc'
+    orderBy: 'desc'
   })
 
   const fetchData = async (params = {} as FileListParams) => {

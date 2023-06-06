@@ -132,6 +132,10 @@ const fileListColumns = computed(() => {
       }
     },
     {
+      title: i18n.global.t('filelist.columns.updatedAt'),
+      dataIndex: 'type'
+    },
+    {
       title: i18n.global.t('filelist.columns.operations'),
       slotName: 'operation'
     }
