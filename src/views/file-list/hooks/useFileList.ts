@@ -35,8 +35,6 @@ export interface FileList {
   renderData: Ref<UserFile[]>
 
   fetchData: () => void
-  // createFile: () => void
-  // updateFile: () => void
 
   onSearchFile: () => void
   onDownloadFile: (fileId: string) => void
@@ -94,8 +92,28 @@ export function provideFileList() {
     await fetchData()
   }
 
+  const existedFolders = new Set<string>()
   const onUploadFile = async (file: File) => {
-    const path = currentPath.value.join('/')
+    let path = currentPath.value.join('/')
+
+    // 文件夹上传时，先把文件所在的文件夹创建好
+    if (file.webkitRelativePath) {
+      const folders = file.webkitRelativePath.split('/')
+      for (let i = 0; i < folders.length - 1; i++) {
+        const folderPath = path + '/' + folders[i]
+        if (existedFolders.has(folderPath)) continue
+        await createFolder({
+          path,
+          name: folders[i],
+          size: 0,
+          type: 'folder',
+          sign: MD5(folders[i]).toString()
+        })
+        path = path + '/' + folders[i]
+        existedFolders.add(folderPath)
+      }
+    }
+
     // userId、path、name、sign四者构成唯一约束
     const { data } = await createFile({
       path,

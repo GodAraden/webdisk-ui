@@ -45,7 +45,7 @@ export async function createFile(params: CreateFileParams) {
 export type CreateFolderParams = CreateFileParams
 export type CreateFolderRes = AxiosData<FileInfoRes>
 export async function createFolder(params: CreateFolderParams) {
-  const { data } = await axios.post<CreateFolderRes>('/api/file/create', params)
+  const { data } = await axios.post<CreateFolderRes>('/api/file/folder', params)
   return data
 }
 

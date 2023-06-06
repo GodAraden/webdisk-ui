@@ -22,11 +22,21 @@
           <a-button-group size="small" shape="round" type="outline">
             <a-button @click="onCreateFolder">
               <template #icon>
-                <icon-plus />
+                <icon-folder-add />
               </template>
               {{ $t('filelist.footer.newFolder') }}
             </a-button>
-            <a-upload @before-upload="onUploadFile">
+            <a-upload @before-upload="onUploadFile" directory>
+              <template #upload-button>
+                <a-button type="primary">
+                  <template #icon>
+                    <icon-folder />
+                  </template>
+                  {{ $t('filelist.footer.uploadFolder') }}
+                </a-button>
+              </template>
+            </a-upload>
+            <a-upload @before-upload="onUploadFile" multiple>
               <template #icon>
                 <icon-upload />
               </template>
