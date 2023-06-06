@@ -35,8 +35,15 @@
             </template>
           </a-button>
           <template #content>
-            <a-doption v-for="item in history" :key="item.timestamp">
-              {{ item.snapshot[item.snapshot.length - 1] || '我的网盘' }}
+            <a-doption
+              v-for="item in history"
+              :key="item.timestamp"
+              @click="currentPath = item.snapshot"
+            >
+              {{
+                item.snapshot[item.snapshot.length - 1] ||
+                $t('filelist.path.home')
+              }}
             </a-doption>
           </template>
         </a-dropdown>
@@ -51,16 +58,17 @@
     <a-divider direction="vertical"></a-divider>
 
     <a-col flex="auto" style="overflow-x: scroll">
-      <a-breadcrumb>
+      <a-breadcrumb :max-count="5">
         <template #separator>
           <icon-right />
         </template>
         <a-breadcrumb-item
           class="breadcrumb-item"
           v-for="(item, idx) in currentPath"
+          @click="currentPath = currentPath.slice(0, idx + 1)"
           :key="idx"
         >
-          {{ item || '我的网盘' }}
+          {{ item || $t('filelist.path.home') }}
         </a-breadcrumb-item>
       </a-breadcrumb>
     </a-col>
@@ -77,9 +85,9 @@
 
 <script lang="ts" setup>
 import { useRefHistory } from '@vueuse/core'
-import { useFilesList } from '../hooks/useFilesList'
+import { useFileList } from '../hooks/useFileList'
 
-const { currentPath, onUploadFile } = useFilesList()
+const { currentPath, onUploadFile } = useFileList()
 
 const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
   capacity: 10,

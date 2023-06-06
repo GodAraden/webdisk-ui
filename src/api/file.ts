@@ -57,31 +57,28 @@ export async function uploadChunk(params: UploadChunkParams) {
   return axios.post<UploadChunkRes>('/api/file/chunk', formData)
 }
 
-export interface DownloadFileParams {
-  id: string
-}
 export type DownloadFileRes = AxiosData<UserFile & { chunks: Chunk[] }>
-export async function downloadFile(params: DownloadFileParams) {
-  const { data } = await axios.get<DownloadFileRes>(`/api/file/${params.id}`)
+export async function downloadFile(fileId: string) {
+  const { data } = await axios.get<DownloadFileRes>(`/api/file/${fileId}`)
   return data
 }
 
-export async function downloadChunk(md5: string) {
-  const { data } = await axios.get<ArrayBuffer>(`/api/file/chunk/${md5}`, {
+export async function downloadChunk(fileId: string, md5: string) {
+  const { data } = await axios.get<ArrayBuffer>(`/api/file/${fileId}/${md5}`, {
     responseType: 'arraybuffer'
   })
   return data
 }
 
 // 获取文件列表
-export interface FilesListParams {
+export interface FileListParams {
   keyword?: string
   path: string
   sortBy: string
   orderBy: string
 }
-export type FilesListRes = AxiosData<UserFile[]>
-export async function getFilesList(params: FilesListParams) {
+export type FileListRes = AxiosData<UserFile[]>
+export async function getFileList(params: FileListParams) {
   const { data } = await axios.post('/api/file/list', params)
   return data
 }

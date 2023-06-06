@@ -15,15 +15,5 @@ export default {
   'logManage.columns.operations': '操作',
   'logManage.columns.operations.download': '下载',
   'logManage.columns.operations.view': '查看',
-  'logManage.columns.operations.delete': '删除',
-
-  // size
-  'logManage.size.mini': '迷你',
-  'logManage.size.small': '偏小',
-  'logManage.size.medium': '中等',
-  'logManage.size.large': '偏大',
-  // actions
-  'logManage.actions.refresh': '刷新',
-  'logManage.actions.density': '密度',
-  'logManage.actions.columnSetting': '列设置'
+  'logManage.columns.operations.delete': '删除'
 }

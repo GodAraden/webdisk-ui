@@ -1,10 +1,10 @@
 import {
-  FilesListParams,
+  FileListParams,
   UserFile,
   createFile,
   downloadChunk,
   downloadFile,
-  getFilesList,
+  getFileList,
   uploadChunk
 } from '@/api/file'
 import useLoading from '@/hooks/useLoading'
@@ -14,9 +14,9 @@ import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
 import { Ref, inject, provide, reactive, ref, toRefs } from 'vue'
 
-const filesListKey = Symbol('FILESLIST')
+const fileListKey = Symbol('FILELIST')
 
-export interface FilesList {
+export interface FileList {
   loading: Ref<boolean>
   queryKeyword: Ref<string>
 
@@ -31,13 +31,15 @@ export interface FilesList {
   // updateFile: () => void
 
   onSearchFile: () => void
-  onDownloadFile: () => void
+  onDownloadFile: (fileId: string) => void
   onUploadFile: (file: File) => Promise<boolean>
 }
 
-export async function provideFilesList() {
+export async function provideFileList() {
   const { loading, setLoading } = useLoading()
   const queryKeyword = ref('')
+
+  // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
   const renderData = ref<UserFile[]>([])
 
@@ -46,10 +48,10 @@ export async function provideFilesList() {
     orderBy: 'asc'
   })
 
-  const fetchData = async (params = {} as FilesListParams) => {
+  const fetchData = async (params = {} as FileListParams) => {
     setLoading(true)
 
-    let queryParams: FilesListParams = {
+    let queryParams: FileListParams = {
       ...filter,
       path: currentPath.value.join('/')
     }
@@ -65,7 +67,7 @@ export async function provideFilesList() {
       ...params
     }
 
-    const { data } = await getFilesList(queryParams)
+    const { data } = await getFileList(queryParams)
     renderData.value = data
 
     setLoading(false)
@@ -79,12 +81,13 @@ export async function provideFilesList() {
 
   const onUploadFile = async (file: File) => {
     const path = currentPath.value.join('/')
+    // userId、path、name、sign四者构成唯一约束
     const { data } = await createFile({
       path,
       name: file.name,
       size: file.size,
       type: file.type,
-      sign: MD5(path + (await file.text())).toString()
+      sign: MD5(await file.text()).toString()
     })
     if (!data) return
 
@@ -110,14 +113,13 @@ export async function provideFilesList() {
     return false
   }
 
-  const onDownloadFile = async () => {
-    const id = prompt('fileID')
-    const { data } = await downloadFile({ id })
+  const onDownloadFile = async (fileId: string) => {
+    const { data } = await downloadFile(fileId)
 
     const buffers: Uint8Array[] = new Array(data.chunks.length)
 
     for (const chunk of data.chunks) {
-      const data = await downloadChunk(chunk.md5)
+      const data = await downloadChunk(fileId, chunk.md5)
       buffers[chunk.order] = new Uint8Array(data)
     }
 
@@ -134,7 +136,7 @@ export async function provideFilesList() {
     { debounce: 500, maxWait: 1000 }
   )
 
-  const returnState: FilesList = {
+  const returnState: FileList = {
     loading,
     queryKeyword,
     ...toRefs(filter),
@@ -145,10 +147,10 @@ export async function provideFilesList() {
     onDownloadFile,
     onUploadFile
   }
-  provide(filesListKey, returnState)
+  provide(fileListKey, returnState)
   return returnState
 }
 
-export function useFilesList() {
-  return inject(filesListKey) as FilesList
+export function useFileList() {
+  return inject(fileListKey) as FileList
 }

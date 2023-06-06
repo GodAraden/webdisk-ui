@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useFilesList } from '../hooks/useFilesList'
+import { useFileList } from '../hooks/useFileList'
 
-const { renderData } = useFilesList()
+const { renderData } = useFileList()
 </script>

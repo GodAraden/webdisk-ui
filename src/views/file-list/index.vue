@@ -3,7 +3,7 @@
     <breadcrumb :items="['menu.filelist']" />
     <div class="p-2 ref-bgc">
       <navbar />
-      <list-view />
+      <component :is="listView"></component>
     </div>
   </div>
 </template>
@@ -12,7 +12,8 @@
 import breadcrumb from '@/components/breadcrumb.vue'
 import navbar from './components/navbar.vue'
 import listView from './components/list-view.vue'
-import { provideFilesList } from './hooks/useFilesList'
+import cardView from './components/card-view.vue'
+import { provideFileList } from './hooks/useFileList'
 
-provideFilesList()
+provideFileList()
 </script>
