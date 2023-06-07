@@ -21,14 +21,6 @@ export interface Chunk {
   fileId: string
 }
 
-export interface FileInfoRes {
-  id: string
-  size: number
-  sign: string
-  type: string
-  uploadSize: number
-}
-
 export interface CreateFileParams {
   name: string
   path: string
@@ -36,14 +28,14 @@ export interface CreateFileParams {
   sign: string
   type: string
 }
-export type CreateFileRes = AxiosData<FileInfoRes>
+export type CreateFileRes = AxiosData<UserFile>
 export async function createFile(params: CreateFileParams) {
   const { data } = await axios.post<CreateFileRes>('/api/file/create', params)
   return data
 }
 
 export type CreateFolderParams = CreateFileParams
-export type CreateFolderRes = AxiosData<FileInfoRes>
+export type CreateFolderRes = AxiosData<UserFile>
 export async function createFolder(params: CreateFolderParams) {
   const { data } = await axios.post<CreateFolderRes>('/api/file/folder', params)
   return data
@@ -56,7 +48,7 @@ export interface UploadChunkParams {
   size: number
   fileId: string
 }
-export type UploadChunkRes = AxiosData<FileInfoRes>
+export type UploadChunkRes = AxiosData<UserFile>
 export async function uploadChunk(params: UploadChunkParams) {
   const formData = new FormData() // 创建表单类型数据
   for (const key in params) {

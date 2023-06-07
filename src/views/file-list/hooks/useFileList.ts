@@ -27,6 +27,7 @@ import { Message } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
 import {
+  ComputedRef,
   Ref,
   computed,
   inject,
@@ -54,10 +55,10 @@ export interface FileList {
 
   currentPath: Ref<string[]>
   currentView: Ref<string>
-  renderData: Ref<UserFile[]>
   pasteBoard: Ref<PasteBoard>
   selectedFiles: Ref<string[]>
-  pasteBoardDisabled: Ref<boolean>
+  renderData: ComputedRef<UserFile[]>
+  pasteBoardDisabled: ComputedRef<boolean>
   fileInfo: Ref<{ visible: boolean; data: SpecFileInfo }>
 
   fetchData: () => void
@@ -86,7 +87,13 @@ export function provideFileList() {
   // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
   const currentView = ref('card')
-  const renderData = ref<UserFile[]>([])
+  const originData = ref<UserFile[]>([])
+  const renderData = computed(() => {
+    return [
+      ...originData.value.filter((v) => v.type === 'folder'),
+      ...originData.value.filter((v) => v.type !== 'folder')
+    ]
+  })
   const selectedFiles = ref<string[]>([])
   const pasteBoard = ref<PasteBoard>()
   const fileInfo = ref({
@@ -107,7 +114,6 @@ export function provideFileList() {
   const fetchData = async (params = {} as FileListParams) => {
     setLoading(true)
     selectedFiles.value = []
-    renderData.value = []
 
     let queryParams: FileListParams = {
       ...filter,
@@ -126,7 +132,7 @@ export function provideFileList() {
     }
 
     const { data } = await getFileList(queryParams)
-    renderData.value = data
+    originData.value = data
 
     setLoading(false)
   }
@@ -197,7 +203,11 @@ export function provideFileList() {
 
       if (res.every((chunk) => chunk.data.data)) {
         Message.success(i18n.global.t('tips.fileList.uploadSuccess'))
-        fetchData()
+        if (file.webkitRelativePath) {
+          await fetchData()
+        } else {
+          originData.value.push(data)
+        }
       }
 
       return false
@@ -216,14 +226,17 @@ export function provideFileList() {
       })
       if (!data) return
       Message.success(i18n.global.t('tips.fileList.createSuccess'))
-      fetchData()
+      originData.value.push(data)
     },
     // 删 相关 handler
     async onDeleteFile(files: string[] = selectedFiles.value) {
       const { data, message } = await deleteFile(files)
       if (!data) return
       Message.success(i18n.global.t(`tips.fileList.${message}`))
-      fetchData()
+      originData.value = originData.value.filter((file) => {
+        return !files.includes(file.id)
+      })
+      selectedFiles.value = []
     },
     // 改 相关 handler
     async onRenameFile(fileId: string, originName: string) {
@@ -232,7 +245,13 @@ export function provideFileList() {
       const { data, message } = await renameFile({ fileId, newName: name })
       if (!data) return
       Message.success(i18n.global.t(`tips.fileList.${message}`))
-      fetchData()
+      originData.value.find((file) => {
+        if (file.id === fileId) {
+          file.name = name
+          return true
+        }
+      })
+      selectedFiles.value = []
     },
     onCutFile(files: string[] = selectedFiles.value) {
       pasteBoard.value = {
@@ -294,7 +313,7 @@ export function provideFileList() {
   }
 
   watch(filter, async () => {
-    renderData.value.sort((a, b) => {
+    originData.value.sort((a, b) => {
       let res = 0
       if (filter.sortBy === 'name') {
         res = a.name.localeCompare(b.name)
@@ -306,10 +325,6 @@ export function provideFileList() {
       if (filter.orderBy === 'desc') res = -res
       return res
     })
-    renderData.value = [
-      ...renderData.value.filter((v) => v.type === 'folder'),
-      ...renderData.value.filter((v) => v.type !== 'folder')
-    ]
   })
 
   watchDebounced(
