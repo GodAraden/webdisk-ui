@@ -95,3 +95,11 @@ export async function deleteFile(fileId: string) {
   const { data } = await axios.delete<AxiosData>(`/api/file/${fileId}`)
   return data
 }
+
+export type SpecFileInfo = UserFile & { fileCount: number; folderCount: number }
+export async function specFileInfo(fileId: string) {
+  const { data } = await axios.post<AxiosData<SpecFileInfo>>(`/api/file/info`, {
+    fileId
+  })
+  return data
+}

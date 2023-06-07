@@ -1,5 +1,6 @@
 import {
   FileListParams,
+  SpecFileInfo,
   UserFile,
   createFile,
   createFolder,
@@ -7,6 +8,7 @@ import {
   downloadChunk,
   downloadFile,
   getFileList,
+  specFileInfo,
   uploadChunk
 } from '@/api/file'
 import useLoading from '@/hooks/useLoading'
@@ -35,6 +37,9 @@ export interface FileList {
   currentView: Ref<string>
   renderData: Ref<UserFile[]>
 
+  fileInfo: Ref<{ visible: boolean; data: SpecFileInfo }>
+  onShowFileInfo: (fileId: string) => void
+
   fetchData: () => void
 
   onSearchFile: () => void
@@ -54,6 +59,17 @@ export function provideFileList() {
   const currentPath = ref([''])
   const currentView = ref('card')
   const renderData = ref<UserFile[]>([])
+  const fileInfo = ref({
+    visible: false,
+    data: {} as SpecFileInfo
+  })
+
+  const onShowFileInfo = async (fileId: string) => {
+    fileInfo.value.visible = true
+    const { data } = await specFileInfo(fileId)
+    if (!data) return
+    fileInfo.value.data = data
+  }
 
   const filter = reactive({
     sortBy: 'updatedAt',
@@ -80,10 +96,7 @@ export function provideFileList() {
     }
 
     const { data } = await getFileList(queryParams)
-    renderData.value = [
-      ...data.filter((v) => v.type === 'folder'),
-      ...data.filter((v) => v.type !== 'folder')
-    ]
+    renderData.value = data
 
     setLoading(false)
   }
@@ -250,6 +263,8 @@ export function provideFileList() {
     currentPath,
     currentView,
     renderData,
+    fileInfo,
+    onShowFileInfo,
     fetchData,
     onSearchFile,
     onDownloadFile,

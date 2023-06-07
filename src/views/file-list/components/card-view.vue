@@ -10,7 +10,9 @@
         <a-dropdown
           trigger="contextMenu"
           position="br"
+          :style="{ width: '12%', overflowY: 'hidden' }"
           :unmount-on-close="false"
+          :popup-max-height="false"
         >
           <a-card
             :bordered="false"
@@ -31,10 +33,6 @@
               {{ $t('filelist.contextMenu.download') }}
             </a-doption>
             <a-doption>
-              <icon-launch />
-              {{ $t('filelist.contextMenu.open') }}
-            </a-doption>
-            <a-doption>
               <icon-share-alt />
               {{ $t('filelist.contextMenu.share') }}
             </a-doption>
@@ -51,7 +49,7 @@
               <icon-font-colors />
               {{ $t('filelist.contextMenu.rename') }}
             </a-doption>
-            <a-doption>
+            <a-doption @click="() => onShowFileInfo(item.id)">
               <icon-info-circle />
               {{ $t('filelist.contextMenu.info') }}
             </a-doption>
@@ -71,8 +69,14 @@
 import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
-const { loading, renderData, onDownloadFile, onDoubleClickFile, onDeleteFile } =
-  useFileList()
+const {
+  loading,
+  renderData,
+  onShowFileInfo,
+  onDownloadFile,
+  onDoubleClickFile,
+  onDeleteFile
+} = useFileList()
 </script>
 
 <style lang="less" scoped>

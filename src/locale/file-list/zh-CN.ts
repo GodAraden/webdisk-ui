@@ -30,6 +30,20 @@ export default {
   'filelist.contextMenu.rename': '重命名',
   'filelist.contextMenu.info': '详细信息',
 
+  'filelist.info.title': '文件详情',
+  'filelist.info.label.name': '文件(夹)名',
+  'filelist.info.label.type.none': '暂未识别',
+  'filelist.info.label.size': '文件大小',
+  'filelist.info.label.uploadSize': '已上传大小',
+  'filelist.info.label.fileCount': '包含文件数目',
+  'filelist.info.label.folderCount': '包含文件夹数目',
+  'filelist.info.label.id': '文件ID',
+  'filelist.info.label.path': '文件路径',
+  'filelist.info.label.sign': '文件标识符',
+  'filelist.info.label.type': '文件类型',
+  'filelist.info.label.status': '文件状态',
+  'filelist.info.label.updatedAt': '最后更新时间',
+
   'filelist.contextMenu.delete': '删除',
 
   'filelist.footer.total': '共 {total} 项',
