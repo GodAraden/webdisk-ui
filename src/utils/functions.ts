@@ -32,7 +32,6 @@ export function openDialog(type: string, defaultValue = '') {
       onCancel: () => resolve('')
     })
     nextTick(() => {
-      console.log(inputElement.value)
       inputElement.value?.focus()
     })
   })

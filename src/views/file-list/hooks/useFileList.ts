@@ -137,7 +137,7 @@ export function provideFileList() {
       name: file.name,
       size: file.size,
       type: file.type,
-      sign: MD5(path + (await file.text())).toString()
+      sign: MD5(await file.text()).toString()
     })
     if (!data) return false
 
