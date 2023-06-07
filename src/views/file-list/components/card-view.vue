@@ -34,7 +34,7 @@
             <p class="ellipsis" :title="item.name"> {{ item.name }} </p>
           </a-card>
           <template #content>
-            <a-doption @click="() => onDownloadFile(item.id)">
+            <a-doption @click="() => onDownloadFile([item.id])">
               <icon-download />
               {{ $t('filelist.contextMenu.download') }}
             </a-doption>

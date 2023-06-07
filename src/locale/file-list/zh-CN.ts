@@ -52,6 +52,7 @@ export default {
   'filelist.footer.operations.cut': '剪切这 {count} 项',
   'filelist.footer.operations.copy': '复制这 {count} 项',
   'filelist.footer.operations.paste': '将 {count} 项粘贴到本目录下',
+  'filelist.footer.operations.download': `要下载者 {count} 项吗？注意文件夹里面的文件会被扁平化的放在指定的目录下`,
   'filelist.footer.newFolder': '新建文件夹',
   'filelist.footer.upload': '上传文件',
   'filelist.footer.uploadFolder': '文件夹上传'

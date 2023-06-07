@@ -57,9 +57,11 @@ export async function uploadChunk(params: UploadChunkParams) {
   return axios.post<UploadChunkRes>('/api/file/chunk', formData)
 }
 
-export type DownloadFileRes = AxiosData<UserFile & { chunks: Chunk[] }>
-export async function downloadFile(fileId: string) {
-  const { data } = await axios.get<DownloadFileRes>(`/api/file/${fileId}`)
+export type DownloadFileRes = AxiosData<(UserFile & { chunks: Chunk[] })[]>
+export async function downloadFile(files: string[]) {
+  const { data } = await axios.post<DownloadFileRes>(`/api/file/download`, {
+    files
+  })
   return data
 }
 

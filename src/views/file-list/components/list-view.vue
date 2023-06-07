@@ -17,7 +17,7 @@
   >
     <template #operation="{ record }">
       <a-tooltip :content="$t('filelist.contextMenu.download')">
-        <a-button type="text" @click="() => onDownloadFile(record.id)">
+        <a-button type="text" @click="() => onDownloadFile([record.id])">
           <template #icon>
             <icon-download />
           </template>

@@ -76,7 +76,7 @@ export interface FileList {
 
   onDeleteFile: (files?: string[]) => void
 
-  onDownloadFile: (fileId: string) => void
+  onDownloadFile: (files?: string[]) => void
   onShowFileInfo: (fileId: string) => void
 }
 
@@ -290,19 +290,22 @@ export function provideFileList() {
       fetchData()
     },
     // 查 相关 handler
-    async onDownloadFile(fileId: string) {
-      const { data } = await downloadFile(fileId)
+    async onDownloadFile(files: string[] = selectedFiles.value) {
+      const { data } = await downloadFile(files)
 
-      const buffers: Uint8Array[] = new Array(data.chunks.length)
+      for (const file of data) {
+        const buffers: Uint8Array[] = new Array(file.chunks.length)
 
-      for (const chunk of data.chunks) {
-        const data = await downloadChunk(fileId, chunk.md5)
-        buffers[chunk.order] = new Uint8Array(data)
+        for (const chunk of file.chunks) {
+          const data = await downloadChunk(file.id, chunk.md5)
+          buffers[chunk.order] = new Uint8Array(data)
+        }
+
+        const res = mergeBlobChunk(buffers)
+
+        saveAs(file.name, res)
+        selectedFiles.value = []
       }
-
-      const res = mergeBlobChunk(buffers)
-
-      saveAs(data.name, res)
     },
     async onShowFileInfo(fileId: string) {
       fileInfo.value.visible = true

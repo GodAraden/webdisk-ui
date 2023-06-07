@@ -87,6 +87,26 @@
             </template>
           </a-button>
         </a-popconfirm>
+
+        <a-popconfirm
+          :content="
+            $t(`filelist.footer.operations.download`, {
+              count: selectedFiles.length
+            })
+          "
+          @ok="onDownloadFile"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            :disabled="selectedFiles.length === 0"
+          >
+            <template #icon>
+              <icon-download />
+            </template>
+          </a-button>
+        </a-popconfirm>
       </a-space>
     </a-col>
     <a-col flex="1px">
@@ -143,6 +163,7 @@ const {
   onCutFile,
   onCopyFile,
   onDeleteFile,
-  onPasteFile
+  onPasteFile,
+  onDownloadFile
 } = useFileList()
 </script>
