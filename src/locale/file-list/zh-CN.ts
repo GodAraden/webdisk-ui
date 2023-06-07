@@ -46,8 +46,12 @@ export default {
 
   'filelist.contextMenu.delete': '删除',
 
-  'filelist.footer.total': '共 {total} 项',
-  'filelist.footer.selected': '，已选择 {total} 项',
+  'filelist.footer.total': '共 {count} 项',
+  'filelist.footer.selected': '，已选择 {count} 项',
+  'filelist.footer.operations.delete': '确认要删除这 {count} 项吗？',
+  'filelist.footer.operations.cut': '剪切这 {count} 项',
+  'filelist.footer.operations.copy': '复制这 {count} 项',
+  'filelist.footer.operations.paste': '将 {count} 项粘贴到本目录下',
   'filelist.footer.newFolder': '新建文件夹',
   'filelist.footer.upload': '上传文件',
   'filelist.footer.uploadFolder': '文件夹上传'

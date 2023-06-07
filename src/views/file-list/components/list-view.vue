@@ -40,11 +40,33 @@
           </template>
         </a-button>
       </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.copy')">
+        <a-button
+          type="text"
+          :disabled="!!pasteBoard"
+          @click="() => onCopyFile([record.id])"
+        >
+          <template #icon>
+            <icon-copy />
+          </template>
+        </a-button>
+      </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.cut')">
+        <a-button
+          type="text"
+          :disabled="!!pasteBoard"
+          @click="() => onCutFile([record.id])"
+        >
+          <template #icon>
+            <icon-scissor />
+          </template>
+        </a-button>
+      </a-tooltip>
       <a-tooltip :content="$t('filelist.contextMenu.delete')">
         <a-button
           type="text"
           status="danger"
-          @click="() => onDeleteFile(record.id)"
+          @click="() => onDeleteFile([record.id])"
         >
           <template #icon>
             <icon-delete />
@@ -77,11 +99,14 @@ const {
   loading,
   renderData,
   selectedFiles,
+  pasteBoard,
   onDownloadFile,
   onDoubleClickFile,
   onDeleteFile,
   onRenameFile,
-  onShowFileInfo
+  onShowFileInfo,
+  onCopyFile,
+  onCutFile
 } = useFileList()
 </script>
 

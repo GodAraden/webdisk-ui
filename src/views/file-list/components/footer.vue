@@ -1,10 +1,94 @@
 <template>
   <a-row :align="'center'" class="mb-1" :gutter="6">
     <a-col flex="200px">
-      {{ $t('filelist.footer.total', { total: renderData.length }) }}
-      {{ $t('filelist.footer.selected', { total: selectedFiles.length }) }}
+      {{ $t('filelist.footer.total', { count: renderData.length }) }}
+      {{ $t('filelist.footer.selected', { count: selectedFiles.length }) }}
     </a-col>
-    <a-col flex="auto"> </a-col>
+    <a-col flex="auto">
+      <a-space size="large">
+        <a-popconfirm
+          type="warning"
+          :content="
+            $t(`filelist.footer.operations.delete`, {
+              count: selectedFiles.length
+            })
+          "
+          @ok="onDeleteFile"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            status="danger"
+            :disabled="pasteBoardDisabled"
+          >
+            <template #icon>
+              <icon-delete />
+            </template>
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          :content="
+            $t(`filelist.footer.operations.cut`, {
+              count: selectedFiles.length
+            })
+          "
+          @ok="onCutFile"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            :disabled="pasteBoardDisabled"
+          >
+            <template #icon>
+              <icon-scissor />
+            </template>
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          :content="
+            $t(`filelist.footer.operations.copy`, {
+              count: selectedFiles.length
+            })
+          "
+          @ok="onCopyFile"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            :disabled="pasteBoardDisabled"
+          >
+            <template #icon>
+              <icon-copy />
+            </template>
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          :content="
+            $t(`filelist.footer.operations.paste`, {
+              count: pasteBoard?.files.length ?? 0
+            })
+          "
+          @ok="onPasteFile"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            :disabled="!pasteBoard"
+          >
+            <template #icon>
+              <icon-paste />
+            </template>
+          </a-button>
+        </a-popconfirm>
+      </a-space>
+    </a-col>
     <a-col flex="1px">
       <a-button
         size="small"
@@ -49,6 +133,16 @@
 <script lang="ts" setup>
 import { useFileList } from '../hooks/useFileList'
 
-const { onUploadFile, renderData, selectedFiles, onCreateFolder } =
-  useFileList()
+const {
+  onUploadFile,
+  renderData,
+  pasteBoard,
+  selectedFiles,
+  pasteBoardDisabled,
+  onCreateFolder,
+  onCutFile,
+  onCopyFile,
+  onDeleteFile,
+  onPasteFile
+} = useFileList()
 </script>

@@ -43,11 +43,17 @@
               {{ $t('filelist.contextMenu.share') }}
             </a-doption>
             <hr />
-            <a-doption>
+            <a-doption
+              :disabled="!!pasteBoard"
+              @click="() => onCopyFile([item.id])"
+            >
               <icon-copy />
               {{ $t('filelist.contextMenu.copy') }}
             </a-doption>
-            <a-doption>
+            <a-doption
+              :disabled="!!pasteBoard"
+              @click="() => onCutFile([item.id])"
+            >
               <icon-scissor />
               {{ $t('filelist.contextMenu.cut') }}
             </a-doption>
@@ -60,7 +66,7 @@
               {{ $t('filelist.contextMenu.info') }}
             </a-doption>
             <hr />
-            <a-doption @click="() => onDeleteFile(item.id)">
+            <a-doption @click="() => onDeleteFile([item.id])">
               <icon-delete />
               {{ $t('filelist.contextMenu.delete') }}
             </a-doption>
@@ -79,10 +85,13 @@ const {
   loading,
   renderData,
   selectedFiles,
+  pasteBoard,
   onShowFileInfo,
   onDownloadFile,
   onDoubleClickFile,
   onDeleteFile,
+  onCutFile,
+  onCopyFile,
   onRenameFile
 } = useFileList()
 

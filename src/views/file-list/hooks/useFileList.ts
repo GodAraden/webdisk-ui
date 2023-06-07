@@ -8,6 +8,8 @@ import {
   downloadChunk,
   downloadFile,
   getFileList,
+  pasteCopyFile,
+  pasteCutFile,
   renameFile,
   specFileInfo,
   uploadChunk
@@ -24,9 +26,24 @@ import { openDialog } from '@/utils/functions'
 import { Message } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
-import { Ref, inject, provide, reactive, ref, toRefs, watch } from 'vue'
+import {
+  Ref,
+  computed,
+  inject,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch
+} from 'vue'
 
 const fileListKey = Symbol('FILELIST')
+
+interface PasteBoard {
+  files: string[]
+  src: string
+  mode: 'cut' | 'copy'
+}
 
 export interface FileList {
   loading: Ref<boolean>
@@ -38,20 +55,28 @@ export interface FileList {
   currentPath: Ref<string[]>
   currentView: Ref<string>
   renderData: Ref<UserFile[]>
+  pasteBoard: Ref<PasteBoard>
   selectedFiles: Ref<string[]>
-
+  pasteBoardDisabled: Ref<boolean>
   fileInfo: Ref<{ visible: boolean; data: SpecFileInfo }>
-  onShowFileInfo: (fileId: string) => void
 
   fetchData: () => void
 
   onSearchFile: () => void
-  onDownloadFile: (fileId: string) => void
-  onCreateFolder: () => void
-  onUploadFile: (file: File) => Promise<boolean>
-  onDeleteFile: (fileId: string) => void
-  onRenameFile: (fileId: string, originName: string) => void
   onDoubleClickFile: (item: UserFile) => void
+
+  onUploadFile: (file: File) => Promise<boolean>
+  onCreateFolder: () => void
+
+  onRenameFile: (fileId: string, originName: string) => void
+  onCutFile: (files?: string[]) => void
+  onCopyFile: (files?: string[]) => void
+  onPasteFile: (files?: string[]) => void
+
+  onDeleteFile: (files?: string[]) => void
+
+  onDownloadFile: (fileId: string) => void
+  onShowFileInfo: (fileId: string) => void
 }
 
 export function provideFileList() {
@@ -63,17 +88,16 @@ export function provideFileList() {
   const currentView = ref('card')
   const renderData = ref<UserFile[]>([])
   const selectedFiles = ref<string[]>([])
+  const pasteBoard = ref<PasteBoard>()
   const fileInfo = ref({
     visible: false,
     data: {} as SpecFileInfo
   })
-
-  const onShowFileInfo = async (fileId: string) => {
-    fileInfo.value.visible = true
-    const { data } = await specFileInfo(fileId)
-    if (!data) return
-    fileInfo.value.data = data
-  }
+  const pasteBoardDisabled = computed(() => {
+    return (
+      selectedFiles.value.length === 0 || Array.isArray(pasteBoard.value?.files)
+    )
+  })
 
   const filter = reactive({
     sortBy: 'updatedAt',
@@ -82,6 +106,8 @@ export function provideFileList() {
 
   const fetchData = async (params = {} as FileListParams) => {
     setLoading(true)
+    selectedFiles.value = []
+    renderData.value = []
 
     let queryParams: FileListParams = {
       ...filter,
@@ -107,116 +133,163 @@ export function provideFileList() {
 
   fetchData()
 
-  const onSearchFile = async () => {
-    fetchData()
-  }
-
   const existedFolders = new Set<string>()
-  const onUploadFile = async (file: File) => {
-    let path = currentPath.value.join('/')
 
-    // 文件夹上传时，先把文件所在的文件夹创建好
-    if (file.webkitRelativePath) {
-      const folders = file.webkitRelativePath.split('/')
-      for (let i = 0; i < folders.length - 1; i++) {
-        const folderPath = path + '/' + folders[i]
-        if (existedFolders.has(folderPath)) continue
-        await createFolder({
-          path,
-          name: folders[i],
-          size: 0,
-          type: 'folder',
-          sign: MD5(folders[i]).toString()
-        })
-        path = path + '/' + folders[i]
-        existedFolders.add(folderPath)
+  // 文件列表相关的操作函数
+  const fileListHandlers = {
+    async onSearchFile() {
+      await fetchData()
+    },
+    onDoubleClickFile(item: UserFile) {
+      if (item.type === 'folder') {
+        currentPath.value.push(item.name)
       }
     }
+  }
 
-    // userId、path、name、sign四者构成唯一约束
-    const { data } = await createFile({
-      path,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      sign: MD5(await file.text()).toString()
-    })
-    if (!data) return false
+  // 文件相关操作的处理函数
+  const fileOperationHandlers = {
+    // 增 相关 handler
+    async onUploadFile(file: File) {
+      let path = currentPath.value.join('/')
 
-    const chunkList = createChunk(file)
+      // 文件夹上传时，先把文件所在的文件夹创建好
+      if (file.webkitRelativePath) {
+        const folders = file.webkitRelativePath.split('/')
+        for (let i = 0; i < folders.length - 1; i++) {
+          const folderPath = path + '/' + folders[i]
+          if (existedFolders.has(folderPath)) continue
+          await createFolder({
+            path,
+            name: folders[i],
+            size: 0,
+            type: 'folder',
+            sign: MD5(folders[i]).toString()
+          })
+          path = path + '/' + folders[i]
+          existedFolders.add(folderPath)
+        }
+      }
 
-    const res = await Promise.all(
-      chunkList.map(async (chunk, i) => {
-        return uploadChunk({
-          chunk,
-          md5: MD5(await chunk.text()).toString(),
-          order: i,
-          size: chunk.size,
-          fileId: data.id
-        })
+      // userId、path、name、sign四者构成唯一约束
+      const { data } = await createFile({
+        path,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        sign: MD5(await file.text()).toString()
       })
-    )
+      if (!data) return false
 
-    if (res.every((chunk) => chunk.data.data)) {
-      Message.success(i18n.global.t('tips.fileList.uploadSuccess'))
+      const chunkList = createChunk(file)
+
+      const res = await Promise.all(
+        chunkList.map(async (chunk, i) => {
+          return uploadChunk({
+            chunk,
+            md5: MD5(await chunk.text()).toString(),
+            order: i,
+            size: chunk.size,
+            fileId: data.id
+          })
+        })
+      )
+
+      if (res.every((chunk) => chunk.data.data)) {
+        Message.success(i18n.global.t('tips.fileList.uploadSuccess'))
+        fetchData()
+      }
+
+      return false
+    },
+    async onCreateFolder() {
+      const name = await openDialog('newFolder')
+      if (name === '' || isFilenameValid.test(name)) return
+
+      const path = currentPath.value.join('/')
+      const { data } = await createFolder({
+        path,
+        name,
+        size: 0,
+        type: 'folder',
+        sign: MD5(name).toString()
+      })
+      if (!data) return
+      Message.success(i18n.global.t('tips.fileList.createSuccess'))
       fetchData()
-    }
+    },
+    // 删 相关 handler
+    async onDeleteFile(files: string[] = selectedFiles.value) {
+      const { data, message } = await deleteFile(files)
+      if (!data) return
+      Message.success(i18n.global.t(`tips.fileList.${message}`))
+      fetchData()
+    },
+    // 改 相关 handler
+    async onRenameFile(fileId: string, originName: string) {
+      const name = await openDialog('renameFile', originName)
+      if (name === '' || name === originName) return
+      const { data, message } = await renameFile({ fileId, newName: name })
+      if (!data) return
+      Message.success(i18n.global.t(`tips.fileList.${message}`))
+      fetchData()
+    },
+    onCutFile(files: string[] = selectedFiles.value) {
+      pasteBoard.value = {
+        files,
+        src: currentPath.value.join('/'),
+        mode: 'cut'
+      }
+    },
+    onCopyFile(files: string[] = selectedFiles.value) {
+      pasteBoard.value = {
+        files,
+        src: currentPath.value.join('/'),
+        mode: 'copy'
+      }
+    },
+    async onPasteFile() {
+      if (!pasteBoard.value) return
+      if (pasteBoard.value?.src === currentPath.value.join('/')) {
+        pasteBoard.value = null
+        return
+      }
+      const params = {
+        fileId: pasteBoard.value.files,
+        newPath: currentPath.value.join('/')
+      }
+      let data: any
+      let message: string = ''
+      if (pasteBoard.value.mode === 'copy') {
+        ;({ data, message } = await pasteCopyFile(params))
+      } else {
+        ;({ data, message } = await pasteCutFile(params))
+      }
+      if (!data) return
+      Message.success(i18n.global.t(`tips.fileList.${message}`))
+      pasteBoard.value = null
+      fetchData()
+    },
+    // 查 相关 handler
+    async onDownloadFile(fileId: string) {
+      const { data } = await downloadFile(fileId)
 
-    return false
-  }
+      const buffers: Uint8Array[] = new Array(data.chunks.length)
 
-  const onCreateFolder = async () => {
-    const name = await openDialog('newFolder')
-    if (name === '' || isFilenameValid.test(name)) return
+      for (const chunk of data.chunks) {
+        const data = await downloadChunk(fileId, chunk.md5)
+        buffers[chunk.order] = new Uint8Array(data)
+      }
 
-    const path = currentPath.value.join('/')
-    const { data } = await createFolder({
-      path,
-      name,
-      size: 0,
-      type: 'folder',
-      sign: MD5(name).toString()
-    })
-    if (!data) return
-    Message.success(i18n.global.t('tips.fileList.createSuccess'))
-    fetchData()
-  }
+      const res = mergeBlobChunk(buffers)
 
-  const onDownloadFile = async (fileId: string) => {
-    const { data } = await downloadFile(fileId)
-
-    const buffers: Uint8Array[] = new Array(data.chunks.length)
-
-    for (const chunk of data.chunks) {
-      const data = await downloadChunk(fileId, chunk.md5)
-      buffers[chunk.order] = new Uint8Array(data)
-    }
-
-    const res = mergeBlobChunk(buffers)
-
-    saveAs(data.name, res)
-  }
-
-  const onDeleteFile = async (fileId: string) => {
-    const { data, message } = await deleteFile(fileId)
-    if (!data) return
-    Message.success(i18n.global.t(`tips.fileList.${message}`))
-    fetchData()
-  }
-
-  const onRenameFile = async (fileId: string, originName: string) => {
-    // const { data } = await renameFile(fileId
-    const name = await openDialog('renameFile', originName)
-    if (name === '' || name === originName) return
-    const { data, message } = await renameFile({ fileId, newName: name })
-    if (!data) return
-    Message.success(i18n.global.t(`tips.fileList.${message}`))
-    fetchData()
-  }
-
-  const onDoubleClickFile = (item: UserFile) => {
-    if (item.type === 'folder') {
-      currentPath.value.push(item.name)
+      saveAs(data.name, res)
+    },
+    async onShowFileInfo(fileId: string) {
+      fileInfo.value.visible = true
+      const { data } = await specFileInfo(fileId)
+      if (!data) return
+      fileInfo.value.data = data
     }
   }
 
@@ -254,18 +327,14 @@ export function provideFileList() {
     ...toRefs(filter),
     currentPath,
     currentView,
-    renderData,
     selectedFiles,
+    pasteBoard,
+    pasteBoardDisabled,
+    renderData,
     fileInfo,
-    onShowFileInfo,
     fetchData,
-    onSearchFile,
-    onDownloadFile,
-    onUploadFile,
-    onDoubleClickFile,
-    onCreateFolder,
-    onDeleteFile,
-    onRenameFile
+    ...fileListHandlers,
+    ...fileOperationHandlers
   }
   provide(fileListKey, returnState)
   return returnState

@@ -91,11 +91,6 @@ export async function getFileList(params: FileListParams) {
   return data
 }
 
-export async function deleteFile(fileId: string) {
-  const { data } = await axios.delete<AxiosData>(`/api/file/${fileId}`)
-  return data
-}
-
 export type SpecFileInfo = UserFile & { fileCount: number; folderCount: number }
 export async function specFileInfo(fileId: string) {
   const { data } = await axios.post<AxiosData<SpecFileInfo>>(`/api/file/info`, {
@@ -104,12 +99,30 @@ export async function specFileInfo(fileId: string) {
   return data
 }
 
+export async function deleteFile(files: string[]) {
+  const { data } = await axios.post<AxiosData>(`/api/file/delete`, { files })
+  return data
+}
+
 export interface renameFileParams {
   fileId: string
   newName: string
 }
-
 export async function renameFile(params: renameFileParams) {
   const { data } = await axios.post<AxiosData>(`/api/file/rename`, params)
+  return data
+}
+
+export interface PasteFileParams {
+  fileId: string[]
+  newPath: string
+  userId?: string
+}
+export async function pasteCutFile(params: PasteFileParams) {
+  const { data } = await axios.post<AxiosData>(`/api/file/cut`, params)
+  return data
+}
+export async function pasteCopyFile(params: PasteFileParams) {
+  const { data } = await axios.post<AxiosData>(`/api/file/copy`, params)
   return data
 }

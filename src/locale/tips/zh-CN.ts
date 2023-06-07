@@ -30,6 +30,8 @@ export default {
   'tips.fileList.createSuccess': '文件夹创建成功',
   'tips.fileList.deleteSuccess': '删除成功',
   'tips.fileList.renameSuccess': '重命名成功',
+  'tips.fileList.copySuccess': '复制成功',
+  'tips.fileList.cutSuccess': '剪切成功',
 
   'notification.contact.title': '你收到了 {count} 条好友申请',
   'notification.contact.content': '去 好友列表 - 我收到的 查看吧',
