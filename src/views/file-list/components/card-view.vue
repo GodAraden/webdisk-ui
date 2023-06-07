@@ -113,8 +113,8 @@ const toggleSelect = (id: string) => {
 }
 
 .card-select {
-  border: 1px dashed rgba(234, 234, 234, 0.5);
-  background-color: rgba(250, 250, 250, 0.5);
+  border: 1px dashed var(--color-neutral-4);
+  background-color: var(--color-neutral-2);
   transition: background 0.1s ease-out;
 }
 </style>
