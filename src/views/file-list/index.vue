@@ -15,7 +15,11 @@
       <file-footer />
     </div>
 
-    <a-modal :footer="false" v-model:visible="fileInfo.visible">
+    <a-modal
+      :footer="false"
+      :unmount-on-close="true"
+      v-model:visible="fileInfo.visible"
+    >
       <template #title> {{ $t('filelist.info.title') }} </template>
       <file-info :data="fileInfo.data" />
     </a-modal>
