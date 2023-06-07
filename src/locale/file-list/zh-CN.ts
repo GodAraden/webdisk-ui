@@ -47,6 +47,7 @@ export default {
   'filelist.contextMenu.delete': '删除',
 
   'filelist.footer.total': '共 {total} 项',
+  'filelist.footer.selected': '，已选择 {total} 项',
   'filelist.footer.newFolder': '新建文件夹',
   'filelist.footer.upload': '上传文件',
   'filelist.footer.uploadFolder': '文件夹上传'

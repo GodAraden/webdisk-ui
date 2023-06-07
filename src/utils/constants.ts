@@ -122,6 +122,7 @@ const fileListColumns = computed(() => {
     {
       title: i18n.global.t('filelist.columns.size'),
       dataIndex: 'size',
+      width: 80,
       render({ record }) {
         return record.size === 0 ? '-' : `${bytesToSize(record.size)}`
       }
@@ -129,6 +130,7 @@ const fileListColumns = computed(() => {
     {
       title: i18n.global.t('filelist.columns.updatedAt'),
       dataIndex: 'updatedAt',
+      width: 180,
       render({ record }) {
         return `${new Date(record.updatedAt).toLocaleString()}`
       }

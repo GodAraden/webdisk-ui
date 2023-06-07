@@ -1,7 +1,8 @@
 <template>
   <a-row :align="'center'" class="mb-1" :gutter="6">
-    <a-col flex="100px">
+    <a-col flex="200px">
       {{ $t('filelist.footer.total', { total: renderData.length }) }}
+      {{ $t('filelist.footer.selected', { total: selectedFiles.length }) }}
     </a-col>
     <a-col flex="auto"> </a-col>
     <a-col flex="1px">
@@ -48,5 +49,6 @@
 <script lang="ts" setup>
 import { useFileList } from '../hooks/useFileList'
 
-const { onUploadFile, renderData, onCreateFolder } = useFileList()
+const { onUploadFile, renderData, selectedFiles, onCreateFolder } =
+  useFileList()
 </script>

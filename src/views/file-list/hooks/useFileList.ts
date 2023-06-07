@@ -38,6 +38,7 @@ export interface FileList {
   currentPath: Ref<string[]>
   currentView: Ref<string>
   renderData: Ref<UserFile[]>
+  selectedFiles: Ref<string[]>
 
   fileInfo: Ref<{ visible: boolean; data: SpecFileInfo }>
   onShowFileInfo: (fileId: string) => void
@@ -61,6 +62,7 @@ export function provideFileList() {
   const currentPath = ref([''])
   const currentView = ref('card')
   const renderData = ref<UserFile[]>([])
+  const selectedFiles = ref<string[]>([])
   const fileInfo = ref({
     visible: false,
     data: {} as SpecFileInfo
@@ -240,7 +242,8 @@ export function provideFileList() {
   watchDebounced(
     currentPath,
     async () => {
-      fetchData()
+      await fetchData()
+      selectedFiles.value = []
     },
     { debounce: 500, maxWait: 1000, deep: true }
   )
@@ -252,6 +255,7 @@ export function provideFileList() {
     currentPath,
     currentView,
     renderData,
+    selectedFiles,
     fileInfo,
     onShowFileInfo,
     fetchData,

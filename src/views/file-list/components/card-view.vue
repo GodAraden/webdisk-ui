@@ -5,8 +5,13 @@
     :body-style="{ padding: 0 }"
     :style="{ height: '70vh', overflowY: 'scroll' }"
   >
-    <a-grid :cols="7" :colGap="24" :rowGap="16" class="grid-demo-grid">
-      <a-grid-item v-for="item in renderData" :key="item.id">
+    <a-grid :cols="7" :colGap="24" :rowGap="16">
+      <a-grid-item
+        v-for="item in renderData"
+        :key="item.id"
+        class="border border-transparent"
+        :class="{ 'card-select': selectedFiles.includes(item.id) }"
+      >
         <a-dropdown
           trigger="contextMenu"
           position="br"
@@ -17,7 +22,8 @@
           <a-card
             :bordered="false"
             hoverable
-            class="cursor-pointer select-none"
+            class="bg-transparent cursor-pointer select-none"
+            @click="() => toggleSelect(item.id)"
             @dblclick="() => onDoubleClickFile(item)"
           >
             <template #cover>
@@ -72,12 +78,20 @@ import { useFileList } from '../hooks/useFileList'
 const {
   loading,
   renderData,
+  selectedFiles,
   onShowFileInfo,
   onDownloadFile,
   onDoubleClickFile,
   onDeleteFile,
   onRenameFile
 } = useFileList()
+
+const toggleSelect = (id: string) => {
+  const set = new Set(selectedFiles.value)
+  if (set.has(id)) set.delete(id)
+  else set.add(id)
+  selectedFiles.value = [...set]
+}
 </script>
 
 <style lang="less" scoped>
@@ -87,5 +101,11 @@ const {
   text-overflow: ellipsis;
   text-align: center;
   cursor: default;
+}
+
+.card-select {
+  border: 1px dashed rgba(234, 234, 234, 0.5);
+  background-color: rgba(250, 250, 250, 0.5);
+  transition: background 0.1s ease-out;
 }
 </style>

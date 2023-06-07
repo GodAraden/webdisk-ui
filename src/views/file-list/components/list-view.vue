@@ -2,12 +2,18 @@
   <a-table
     size="small"
     header-cell-class="table-header-cell"
+    row-key="id"
     :loading="loading"
     :bordered="false"
     :pagination="false"
     :scroll="{ y: '70vh' }"
     :data="renderData"
     :columns="fileListColumns"
+    :row-selection="{
+      type: 'checkbox',
+      showCheckedAll: true
+    }"
+    v-model:selectedKeys="selectedFiles"
   >
     <template #operation="{ record }">
       <a-tooltip :content="$t('filelist.contextMenu.download')">
@@ -70,6 +76,7 @@ import { useFileList } from '../hooks/useFileList'
 const {
   loading,
   renderData,
+  selectedFiles,
   onDownloadFile,
   onDoubleClickFile,
   onDeleteFile,
