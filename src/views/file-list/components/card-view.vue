@@ -22,7 +22,7 @@
           >
             <template #cover>
               <div class="w-12 h-12 mx-auto my-3 mb-0">
-                <img :src="`/icon/${typeToIcon(item.type)}.svg`" />
+                <img :src="`/icon/${typeToIcon(item.type, item.name)}.svg`" />
               </div>
             </template>
             <p class="ellipsis" :title="item.name"> {{ item.name }} </p>

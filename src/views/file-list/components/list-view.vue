@@ -22,7 +22,10 @@
         class="cursor-pointer select-none"
         @dblclick="() => onDoubleClickFile(record)"
       >
-        <img :src="`/icon/${typeToIcon(record.type)}.svg`" width="24" />
+        <img
+          :src="`/icon/${typeToIcon(record.type, record.name)}.svg`"
+          width="24"
+        />
         {{ record.name }}
       </a-space>
     </template>
