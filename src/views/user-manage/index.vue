@@ -136,8 +136,8 @@ const DEFAULT_KEY = 'userlist'
 
 const { t } = useI18n()
 const active_key = ref(DEFAULT_KEY)
-const userList = ref<UserListItem[]>()
-const inviteList = ref<InviteListItem[]>()
+const userList = ref<UserListItem[]>([])
+const inviteList = ref<InviteListItem[]>([])
 const visible = ref(false)
 const selectedUser = ref<User>({} as User)
 

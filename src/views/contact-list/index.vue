@@ -160,10 +160,10 @@ const active_key = ref(
     ? (route.query.tab as string)
     : DEFAULT_KEY
 )
-const friendList = ref<ContactListItem[]>()
-const recvList = ref<ContactListItem[]>()
-const sendList = ref<ContactListItem[]>()
-const searchList = ref<SearchUser[]>()
+const friendList = ref<ContactListItem[]>([])
+const recvList = ref<ContactListItem[]>([])
+const sendList = ref<ContactListItem[]>([])
+const searchList = ref<SearchUser[]>([])
 const visible = ref(false)
 
 const onFetchFriendList = async () => {
