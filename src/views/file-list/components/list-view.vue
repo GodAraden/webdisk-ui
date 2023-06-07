@@ -10,13 +10,43 @@
     :columns="fileListColumns"
   >
     <template #operation="{ record }">
-      <a-button type="text" @click="() => onDownloadFile(record.id)">
-        {{ $t('filelist.columns.operations.download') }}
-      </a-button>
-      <a-button type="text" @click="() => onDeleteFile(record.id)">
-        {{ $t('filelist.columns.operations.delete') }}
-      </a-button>
+      <a-tooltip :content="$t('filelist.contextMenu.download')">
+        <a-button type="text" @click="() => onDownloadFile(record.id)">
+          <template #icon>
+            <icon-download />
+          </template>
+        </a-button>
+      </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.rename')">
+        <a-button
+          type="text"
+          @click="() => onRenameFile(record.id, record.name)"
+        >
+          <template #icon>
+            <icon-font-colors />
+          </template>
+        </a-button>
+      </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.info')">
+        <a-button type="text" @click="() => onShowFileInfo(record.id)">
+          <template #icon>
+            <icon-info-circle />
+          </template>
+        </a-button>
+      </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.delete')">
+        <a-button
+          type="text"
+          status="danger"
+          @click="() => onDeleteFile(record.id)"
+        >
+          <template #icon>
+            <icon-delete />
+          </template>
+        </a-button>
+      </a-tooltip>
     </template>
+
     <template #filename="{ record }">
       <a-space
         class="cursor-pointer select-none"
@@ -37,8 +67,15 @@ import { fileListColumns } from '@/utils/constants'
 import { typeToIcon } from '@/utils/format'
 import { useFileList } from '../hooks/useFileList'
 
-const { loading, renderData, onDownloadFile, onDoubleClickFile, onDeleteFile } =
-  useFileList()
+const {
+  loading,
+  renderData,
+  onDownloadFile,
+  onDoubleClickFile,
+  onDeleteFile,
+  onRenameFile,
+  onShowFileInfo
+} = useFileList()
 </script>
 
 <style lang="less" scoped>
