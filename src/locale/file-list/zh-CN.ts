@@ -8,6 +8,7 @@ export default {
   'filelist.navbar.filter.desc': '降序',
   'filelist.navbar.filter.sortBy': '排序方式',
   'filelist.navbar.filter.orderBy': '排序方向',
+  'filelist.navbar.filter.search': '在本文件夹下检索',
 
   'filelist.navbar.view.card': '切换为列表视图',
   'filelist.navbar.view.list': '切换为宫格视图',

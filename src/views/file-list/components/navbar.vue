@@ -108,8 +108,8 @@
         <a-col flex="auto">
           <a-input-search
             size="small"
-            placeholder="在本文件夹下检索"
-            @search="(v) => currentPath.push(v)"
+            :placeholder="$t('filelist.navbar.filter.search')"
+            @search="(v) => onSearchFile(v)"
           />
         </a-col>
       </a-row>
@@ -121,7 +121,8 @@
 import { useRefHistory, useCycleList } from '@vueuse/core'
 import { useFileList } from '../hooks/useFileList'
 
-const { currentPath, fetchData, sortBy, orderBy, currentView } = useFileList()
+const { currentPath, fetchData, sortBy, orderBy, currentView, onSearchFile } =
+  useFileList()
 
 const { history, undo, redo, canUndo, canRedo } = useRefHistory(currentPath, {
   capacity: 10,

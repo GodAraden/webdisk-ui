@@ -48,7 +48,6 @@ interface PasteBoard {
 
 export interface FileList {
   loading: Ref<boolean>
-  queryKeyword: Ref<string>
 
   sortBy: Ref<string>
   orderBy: Ref<string>
@@ -63,7 +62,7 @@ export interface FileList {
 
   fetchData: () => void
 
-  onSearchFile: () => void
+  onSearchFile: (keyword: string) => void
   onDoubleClickFile: (item: UserFile) => void
 
   onUploadFile: (file: File) => Promise<boolean>
@@ -82,7 +81,6 @@ export interface FileList {
 
 export function provideFileList() {
   const { loading, setLoading } = useLoading()
-  const queryKeyword = ref('')
 
   // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
@@ -111,23 +109,13 @@ export function provideFileList() {
     orderBy: 'desc'
   })
 
-  const fetchData = async (params = {} as FileListParams) => {
+  const fetchData = async (params: Partial<FileListParams> = {}) => {
     setLoading(true)
     selectedFiles.value = []
 
     let queryParams: FileListParams = {
+      path: currentPath.value.join('/'),
       ...filter,
-      path: currentPath.value.join('/')
-    }
-    if (queryKeyword.value) {
-      queryParams = {
-        ...queryParams,
-        keyword: queryKeyword.value
-      }
-    }
-
-    queryParams = {
-      ...queryParams,
       ...params
     }
 
@@ -143,8 +131,8 @@ export function provideFileList() {
 
   // 文件列表相关的操作函数
   const fileListHandlers = {
-    async onSearchFile() {
-      await fetchData()
+    async onSearchFile(keyword: string) {
+      await fetchData({ keyword })
     },
     onDoubleClickFile(item: UserFile) {
       if (item.type === 'folder') {
@@ -341,7 +329,6 @@ export function provideFileList() {
 
   const returnState: FileList = {
     loading,
-    queryKeyword,
     ...toRefs(filter),
     currentPath,
     currentView,
