@@ -29,7 +29,16 @@ export default {
   'tips.fileList.uploadSuccess': '上传成功',
   'tips.fileList.createSuccess': '文件夹创建成功',
   'tips.fileList.deleteSuccess': '删除成功',
+  'tips.fileList.renameSuccess': '重命名成功',
 
   'notification.contact.title': '你收到了 {count} 条好友申请',
-  'notification.contact.content': '去 好友列表 - 我收到的 查看吧'
+  'notification.contact.content': '去 好友列表 - 我收到的 查看吧',
+
+  'dialog.newFolder.title': '新建文件夹',
+  'dialog.newFolder.tips': '注意：文件名不能包含特殊字符',
+  'dialog.newFolder.placeholder': '请输入新建文件夹名称',
+
+  'dialog.renameFile.title': '文件重命名',
+  'dialog.renameFile.tips': '注意：文件名不能包含特殊字符',
+  'dialog.renameFile.placeholder': '请输入重命名后的文件名称'
 }

@@ -103,3 +103,13 @@ export async function specFileInfo(fileId: string) {
   })
   return data
 }
+
+export interface renameFileParams {
+  fileId: string
+  newName: string
+}
+
+export async function renameFile(params: renameFileParams) {
+  const { data } = await axios.post<AxiosData>(`/api/file/rename`, params)
+  return data
+}

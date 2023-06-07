@@ -8,6 +8,7 @@ import {
   downloadChunk,
   downloadFile,
   getFileList,
+  renameFile,
   specFileInfo,
   uploadChunk
 } from '@/api/file'
@@ -19,10 +20,11 @@ import {
   mergeBlobChunk,
   saveAs
 } from '@/utils/file'
-import { Input, Message, Modal } from '@arco-design/web-vue'
+import { openDialog } from '@/utils/functions'
+import { Message } from '@arco-design/web-vue'
 import { watchDebounced } from '@vueuse/core'
 import { MD5 } from 'crypto-js'
-import { Ref, h, inject, provide, reactive, ref, toRefs, watch } from 'vue'
+import { Ref, inject, provide, reactive, ref, toRefs, watch } from 'vue'
 
 const fileListKey = Symbol('FILELIST')
 
@@ -47,7 +49,7 @@ export interface FileList {
   onCreateFolder: () => void
   onUploadFile: (file: File) => Promise<boolean>
   onDeleteFile: (fileId: string) => void
-
+  onRenameFile: (fileId: string, originName: string) => void
   onDoubleClickFile: (item: UserFile) => void
 }
 
@@ -162,30 +164,7 @@ export function provideFileList() {
   }
 
   const onCreateFolder = async () => {
-    const name = await new Promise<string>((resolve, reject) => {
-      const filename = ref('')
-      Modal.info({
-        title: i18n.global.t('filelist.footer.newFolder'),
-        content: () =>
-          h('div', [
-            h(
-              'p',
-              { class: 'mb-2' },
-              i18n.global.t('filelist.footer.newFolder.tips')
-            ),
-            h(Input, {
-              'model-value': filename.value,
-              placeholder: i18n.global.t(
-                'filelist.footer.newFolder.placeholder'
-              ),
-              onInput: (newVal) => (filename.value = newVal)
-            })
-          ]),
-        onOk: () => resolve(filename.value),
-        onCancel: () => reject('')
-      })
-    })
-
+    const name = await openDialog('newFolder')
     if (name === '' || isFilenameValid.test(name)) return
 
     const path = currentPath.value.join('/')
@@ -218,6 +197,16 @@ export function provideFileList() {
 
   const onDeleteFile = async (fileId: string) => {
     const { data, message } = await deleteFile(fileId)
+    if (!data) return
+    Message.success(i18n.global.t(`tips.fileList.${message}`))
+    fetchData()
+  }
+
+  const onRenameFile = async (fileId: string, originName: string) => {
+    // const { data } = await renameFile(fileId
+    const name = await openDialog('renameFile', originName)
+    if (name === '' || name === originName) return
+    const { data, message } = await renameFile({ fileId, newName: name })
     if (!data) return
     Message.success(i18n.global.t(`tips.fileList.${message}`))
     fetchData()
@@ -271,7 +260,8 @@ export function provideFileList() {
     onUploadFile,
     onDoubleClickFile,
     onCreateFolder,
-    onDeleteFile
+    onDeleteFile,
+    onRenameFile
   }
   provide(fileListKey, returnState)
   return returnState

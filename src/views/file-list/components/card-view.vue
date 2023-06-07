@@ -45,7 +45,7 @@
               <icon-scissor />
               {{ $t('filelist.contextMenu.cut') }}
             </a-doption>
-            <a-doption>
+            <a-doption @click="() => onRenameFile(item.id, item.name)">
               <icon-font-colors />
               {{ $t('filelist.contextMenu.rename') }}
             </a-doption>
@@ -75,7 +75,8 @@ const {
   onShowFileInfo,
   onDownloadFile,
   onDoubleClickFile,
-  onDeleteFile
+  onDeleteFile,
+  onRenameFile
 } = useFileList()
 </script>
 
