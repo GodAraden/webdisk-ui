@@ -1,9 +1,10 @@
-import { Ref, inject, provide, ref } from 'vue'
+import { Ref, inject, provide, ref, render } from 'vue'
 import useLoading from '@/hooks/useLoading'
 import {
   CreateShareParams,
   ShareListItem,
   createShare,
+  deleteShare,
   getSendShare
 } from '@/api/share'
 import { Message } from '@arco-design/web-vue'
@@ -25,6 +26,7 @@ interface ProvideShareListResult {
   fetchData: () => void
 
   onCreateShare: (params: CreateShareParams) => void
+  onDeleteShare: (...shares: string[]) => void
 }
 
 const shareListKey = Symbol('SHARELIST')
@@ -66,6 +68,14 @@ export function provideShareList() {
       const { data } = await createShare(params)
       if (!data) return
       Message.success(i18n.global.t('tips.sharelist.create.success'))
+    },
+    async onDeleteShare(...shares: string[]) {
+      const { data } = await deleteShare({ shares })
+      if (!data) return
+      Message.success(i18n.global.t('tips.sharelist.deleteSuccess'))
+      renderData.value = renderData.value.filter((share) => {
+        return !shares.includes(share.id)
+      })
     }
   }
 

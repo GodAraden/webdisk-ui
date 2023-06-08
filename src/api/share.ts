@@ -31,3 +31,11 @@ export async function getSendShare() {
   const { data } = await axios.get<ShareListRes>('/api/share/send')
   return data
 }
+
+export interface DeleteShareParams {
+  shares: string[]
+}
+export async function deleteShare(params: DeleteShareParams) {
+  const { data } = await axios.post<AxiosData>('api/share/delete', params)
+  return data
+}

@@ -6,7 +6,7 @@ export default {
   'sharelist.tab.send.public': '所有人',
   'sharelist.tab.send.includeFiles': '包含文件或目录：',
 
-  'sharelist.list.actions.delete': '删除',
+  'sharelist.list.actions.delete': '要删除这一条分享吗？',
   'sharelist.list.actions.copy': '复制提取码',
   'sharelist.list.actions.copied': '已复制！',
   'sharelist.list.actions.update': '更新分享链接',

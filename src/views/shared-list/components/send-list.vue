@@ -37,13 +37,16 @@
             </template>
           </a-button>
         </a-tooltip>
-        <a-tooltip :content="$t('sharelist.list.actions.delete')">
+        <a-popconfirm
+          :content="$t('sharelist.list.actions.delete')"
+          @ok="() => onDeleteShare(item.id)"
+        >
           <a-button type="text" status="danger">
             <template #icon>
               <icon-delete />
             </template>
           </a-button>
-        </a-tooltip>
+        </a-popconfirm>
       </template>
     </a-list-item>
   </a-list>
@@ -53,6 +56,6 @@
 import { useClipboard } from '@vueuse/core'
 import { useShareList } from '../hooks/useShareList'
 
-const { loading, renderData } = useShareList()
+const { loading, renderData, onDeleteShare } = useShareList()
 const { copy, copied } = useClipboard()
 </script>
