@@ -1,8 +1,14 @@
 import { Ref, inject, provide, ref } from 'vue'
 import useLoading from '@/hooks/useLoading'
-import { CreateShareParams, ShareListItem, createShare } from '@/api/share'
+import {
+  CreateShareParams,
+  ShareListItem,
+  createShare,
+  getSendShare
+} from '@/api/share'
 import { Message } from '@arco-design/web-vue'
 import { i18n } from '@/locale'
+import { getRecvShare } from '@/api/share'
 
 export const enum PageKey {
   RECV = 'recv',
@@ -25,14 +31,23 @@ const shareListKey = Symbol('SHARELIST')
 
 export function provideShareList() {
   const { loading, setLoading } = useLoading()
-  const currentPage = ref<PageKey>(PageKey.RECV)
+  const currentPage = ref<PageKey>(PageKey.SEND)
 
   const renderData = ref<ShareListItem[]>([])
 
-  const fetchRecvList = async () => {}
-  const fetchSendList = async () => {}
+  const fetchRecvList = async () => {
+    const { data } = await getRecvShare()
+    if (!data) return
+    renderData.value = data
+  }
+  const fetchSendList = async () => {
+    const { data } = await getSendShare()
+    if (!data) return
+    renderData.value = data
+  }
 
   const fetchData = () => {
+    setLoading(true)
     switch (currentPage.value) {
       case PageKey.RECV:
         fetchRecvList()
@@ -41,6 +56,7 @@ export function provideShareList() {
         fetchSendList()
         break
     }
+    setLoading(false)
   }
 
   fetchData()

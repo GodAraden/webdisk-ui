@@ -1,6 +1,15 @@
 export default {
   'sharelist.tab.recv': '我收到的',
+
   'sharelist.tab.send': '我发出的',
+  'sharelist.tab.send.shareTo': '分享给：',
+  'sharelist.tab.send.public': '所有人',
+  'sharelist.tab.send.includeFiles': '包含文件或目录：',
+
+  'sharelist.list.actions.delete': '删除',
+  'sharelist.list.actions.copy': '复制提取码',
+  'sharelist.list.actions.copied': '已复制！',
+  'sharelist.list.actions.update': '更新分享链接',
 
   'sharelist.dialog.title': '填写文件分享信息',
   'sharelist.dialog.fields.files': '分享文件',

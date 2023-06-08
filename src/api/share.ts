@@ -21,3 +21,13 @@ export async function createShare(params: CreateShareParams) {
   const { data } = await axios.post('/api/share/create', params)
   return data
 }
+
+export type ShareListRes = AxiosData<ShareListItem[]>
+export async function getRecvShare() {
+  const { data } = await axios.get<ShareListRes>('/api/share/recv')
+  return data
+}
+export async function getSendShare() {
+  const { data } = await axios.get<ShareListRes>('/api/share/send')
+  return data
+}
