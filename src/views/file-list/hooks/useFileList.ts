@@ -14,6 +14,7 @@ import {
   specFileInfo,
   uploadChunk
 } from '@/api/file'
+import { CreateShareParams, createShare } from '@/api/share'
 import useLoading from '@/hooks/useLoading'
 import { i18n } from '@/locale'
 import {
@@ -48,6 +49,10 @@ interface PasteBoard {
 
 export interface FileList {
   loading: Ref<boolean>
+  shareForm: Ref<{
+    visible: boolean
+    data: CreateShareParams
+  }>
 
   sortBy: Ref<string>
   orderBy: Ref<string>
@@ -67,6 +72,8 @@ export interface FileList {
 
   onUploadFile: (file: File) => Promise<boolean>
   onCreateFolder: () => void
+  onClickShare: (...files: string[]) => void
+  onCreateShare: () => void
 
   onRenameFile: (fileId: string, originName: string) => void
   onCutFile: (files?: string[]) => void
@@ -81,6 +88,10 @@ export interface FileList {
 
 export function provideFileList() {
   const { loading, setLoading } = useLoading()
+  const shareForm = ref({
+    visible: false,
+    data: {} as CreateShareParams
+  })
 
   // 文件的虚拟路径，和windows一样不能有特殊字符
   const currentPath = ref([''])
@@ -133,6 +144,10 @@ export function provideFileList() {
   const fileListHandlers = {
     async onSearchFile(keyword: string) {
       await fetchData({ keyword })
+    },
+    onClickShare(...files: string[]) {
+      shareForm.value.visible = true
+      shareForm.value.data.files = files
     },
     onDoubleClickFile(item: UserFile) {
       if (item.type === 'folder') {
@@ -215,6 +230,13 @@ export function provideFileList() {
       if (!data) return
       Message.success(i18n.global.t('tips.fileList.createSuccess'))
       originData.value.push(data)
+    },
+    async onCreateShare() {
+      const { data } = await createShare(shareForm.value.data)
+      if (!data) return
+      Message.success(i18n.global.t('tips.sharelist.create.success'))
+      shareForm.value.visible = false
+      shareForm.value.data = {} as CreateShareParams
     },
     // 删 相关 handler
     async onDeleteFile(files: string[] = selectedFiles.value) {
@@ -329,6 +351,7 @@ export function provideFileList() {
 
   const returnState: FileList = {
     loading,
+    shareForm,
     ...toRefs(filter),
     currentPath,
     currentView,

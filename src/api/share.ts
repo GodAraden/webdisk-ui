@@ -39,3 +39,24 @@ export async function deleteShare(params: DeleteShareParams) {
   const { data } = await axios.post<AxiosData>('api/share/delete', params)
   return data
 }
+
+export interface FilesProp {
+  id: string
+  name: string
+  path: string
+}
+
+export interface UserProp {
+  id: string
+  username: string
+  email: string
+}
+// 获取填写表单时所用到的文件、收件人信息
+export async function getAllFiles() {
+  const { data } = await axios.get<AxiosData<FilesProp[]>>('/api/share/file')
+  return data
+}
+export async function getAllFriends() {
+  const { data } = await axios.get<AxiosData<UserProp[]>>('/api/share/friend')
+  return data
+}

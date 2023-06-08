@@ -38,7 +38,7 @@
               <icon-download />
               {{ $t('filelist.contextMenu.download') }}
             </a-doption>
-            <a-doption>
+            <a-doption @click="() => onClickShare(item.id)">
               <icon-share-alt />
               {{ $t('filelist.contextMenu.share') }}
             </a-doption>
@@ -83,6 +83,7 @@ import { useFileList } from '../hooks/useFileList'
 
 const {
   loading,
+  shareForm,
   renderData,
   selectedFiles,
   pasteBoard,
@@ -92,7 +93,8 @@ const {
   onDeleteFile,
   onCutFile,
   onCopyFile,
-  onRenameFile
+  onRenameFile,
+  onClickShare
 } = useFileList()
 
 const toggleSelect = (id: string) => {

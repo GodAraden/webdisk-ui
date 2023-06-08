@@ -23,6 +23,13 @@
           </template>
         </a-button>
       </a-tooltip>
+      <a-tooltip :content="$t('filelist.contextMenu.share')">
+        <a-button type="text" @click="() => onClickShare(record.id)">
+          <template #icon>
+            <icon-share-alt />
+          </template>
+        </a-button>
+      </a-tooltip>
       <a-tooltip :content="$t('filelist.contextMenu.rename')">
         <a-button
           type="text"
@@ -98,6 +105,7 @@ import { useFileList } from '../hooks/useFileList'
 const {
   loading,
   renderData,
+  shareForm,
   selectedFiles,
   pasteBoard,
   onDownloadFile,
@@ -106,7 +114,8 @@ const {
   onRenameFile,
   onShowFileInfo,
   onCopyFile,
-  onCutFile
+  onCutFile,
+  onClickShare
 } = useFileList()
 </script>
 

@@ -107,6 +107,26 @@
             </template>
           </a-button>
         </a-popconfirm>
+
+        <a-popconfirm
+          :content="
+            $t(`filelist.footer.operations.share`, {
+              count: selectedFiles.length
+            })
+          "
+          @ok="() => onClickShare(...selectedFiles)"
+        >
+          <a-button
+            size="small"
+            shape="round"
+            type="text"
+            :disabled="selectedFiles.length === 0"
+          >
+            <template #icon>
+              <icon-share-alt />
+            </template>
+          </a-button>
+        </a-popconfirm>
       </a-space>
     </a-col>
     <a-col flex="1px">
@@ -157,6 +177,7 @@ const {
   onUploadFile,
   renderData,
   pasteBoard,
+  shareForm,
   selectedFiles,
   pasteBoardDisabled,
   onCreateFolder,
@@ -164,6 +185,7 @@ const {
   onCopyFile,
   onDeleteFile,
   onPasteFile,
-  onDownloadFile
+  onDownloadFile,
+  onClickShare
 } = useFileList()
 </script>

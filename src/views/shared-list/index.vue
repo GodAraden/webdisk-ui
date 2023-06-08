@@ -19,7 +19,6 @@
         <recvList />
       </a-tab-pane>
     </a-tabs>
-    <shareDialog :visible="showShareForm" @submit="onsubmit" />
   </div>
 </template>
 

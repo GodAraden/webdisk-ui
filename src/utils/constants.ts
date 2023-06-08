@@ -137,7 +137,7 @@ const fileListColumns = computed(() => {
     {
       title: i18n.global.t('filelist.columns.operations'),
       slotName: 'operation',
-      width: 230
+      width: 256
     }
   ]
   return columns

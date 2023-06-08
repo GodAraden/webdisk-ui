@@ -30,13 +30,6 @@
             </template>
           </a-button>
         </a-tooltip>
-        <a-tooltip :content="$t('sharelist.list.actions.update')">
-          <a-button type="text">
-            <template #icon>
-              <icon-upload />
-            </template>
-          </a-button>
-        </a-tooltip>
         <a-popconfirm
           :content="$t('sharelist.list.actions.delete')"
           @ok="() => onDeleteShare(item.id)"
