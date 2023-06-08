@@ -49,7 +49,7 @@ export function provideShareList() {
     async onCreateShare(params: CreateShareParams) {
       const { data } = await createShare(params)
       if (!data) return
-      Message.success(i18n.global.t('tips.sharelist.createSuccess'))
+      Message.success(i18n.global.t('tips.sharelist.create.success'))
     }
   }
 

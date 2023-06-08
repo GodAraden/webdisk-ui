@@ -33,7 +33,8 @@ export default {
   'tips.fileList.copySuccess': '复制成功',
   'tips.fileList.cutSuccess': '剪切成功',
 
-  'tips.sharelist.createSuccess': '创建成功',
+  'tips.sharelist.create.success': '创建成功',
+  'tips.sharelist.create.emptyFiles': '分享的文件不能为空',
 
   'notification.contact.title': '你收到了 {count} 条好友申请',
   'notification.contact.content': '去 好友列表 - 我收到的 查看吧',
