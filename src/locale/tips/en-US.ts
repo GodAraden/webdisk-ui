@@ -37,6 +37,8 @@ export default {
   'tips.sharelist.create.success': 'Create successfully',
   'tips.sharelist.create.emptyFiles': 'Shared files cannot be empty',
   'tips.sharelist.deleteSuccess': 'Delete successful',
+  'tips.sharelist.errorCode': 'Extraction code error',
+  'tips.sharelist.saveSuccess': 'Save successfully',
 
   'notification.contact.title': 'You have received {count} friend requests',
   'notification.contact.content':
@@ -50,5 +52,9 @@ export default {
   'dialog.renameFile.title': 'File Rename',
   'dialog.renameFile.tips':
     'Note: The file name cannot contain special characters',
-  'dialog.renameFile.placeholder': 'Please enter the renamed file name'
+  'dialog.renameFile.placeholder': 'Please enter the renamed file name',
+
+  'dialog.share.code.title': 'Please enter the extraction code',
+  'dialog. share. code. tips': '',
+  'dialog. share. code. placeholder': ''
 }

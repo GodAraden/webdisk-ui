@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { DownloadFileRes, UserFile } from './file'
 
 export interface ShareListItem {
   id: string
@@ -58,5 +59,25 @@ export async function getAllFiles() {
 }
 export async function getAllFriends() {
   const { data } = await axios.get<AxiosData<UserProp[]>>('/api/share/friend')
+  return data
+}
+export async function getAllPaths() {
+  const { data } = await axios.get<AxiosData<{ path: string }[]>>(
+    '/api/share/path'
+  )
+  return data
+}
+
+export async function saveToDisk(shareId: string, path: string) {
+  const { data } = await axios.post<AxiosData>('/api/share/import', {
+    shareId,
+    path
+  })
+  return data
+}
+export async function downloadFile(shareId: string) {
+  const { data } = await axios.post<DownloadFileRes>('/api/share/download', {
+    shareId
+  })
   return data
 }

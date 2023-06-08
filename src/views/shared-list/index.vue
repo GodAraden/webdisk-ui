@@ -4,7 +4,7 @@
     <a-tabs
       class="px-4 py-2 ref-bgc"
       :style="{ height: '78vh', overflowY: 'scroll' }"
-      :default-active-key="currentPage"
+      v-model:active-key="currentPage"
     >
       <a-tab-pane
         :key="PageKey.SEND"

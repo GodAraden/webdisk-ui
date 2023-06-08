@@ -10,6 +10,10 @@ export default {
   'sharelist.list.actions.copy': 'Copy extraction code',
   'sharelist.list.actions.copied': 'Copied! ',
   'sharelist.list.actions.update': 'Update share link',
+  'sharelist.list.actions.import': 'Dump to my network disk',
+  'sharelist.list.actions.download': 'Download to local',
+
+  'sharelist.dialog.import.title': 'Select save location',
 
   'sharelist.dialog.title': 'Fill in file sharing information',
   'sharelist.dialog.fields.files': 'Share files',
@@ -18,12 +22,14 @@ export default {
   'sharelist.dialog.fields.code.add': 'Click to set extraction code',
   'sharelist.dialog.fields.code.delete': 'No need',
   'sharelist.dialog.fields.overTime': 'Expiration time',
+  'sharelist.dialog.fields.import': 'Path',
 
   'sharelist.dialog.placeholder.files': 'Please choose to share files',
   'sharelist.dialog.placeholder.receivers': 'Please select recipient user',
   'sharelist.dialog.placeholder.code':
     'Please enter the extraction code of the share link',
   'sharelist.dialog.placeholder.overTime': 'Please select an expiration time',
+  'sharelist.dialog.placeholder.import': 'Please select the file save path',
 
   'sharelist.dialog.extra.files':
     'Enter file path or file name query and select',

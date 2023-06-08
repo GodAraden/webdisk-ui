@@ -1,4 +1,5 @@
 <template>
+  {{ selected }}
   <a-list :loading="loading" :bordered="false">
     <a-list-item v-for="item in renderData" :key="item.id">
       <a-list-item-meta
@@ -6,11 +7,7 @@
           $t('sharelist.tab.send.includeFiles') +
           item.files.map((file) => file.name).join('，')
         "
-        :title="
-          $t('sharelist.tab.send.shareTo') +
-            item.receiver.map((user) => user.username).join('，') ||
-          $t('sharelist.tab.send.public')
-        "
+        :title="$t('sharelist.tab.send.shareTo')"
       >
         <template #avatar>
           <a-avatar shape="square">
@@ -22,37 +19,66 @@
         </template>
       </a-list-item-meta>
       <template #actions>
-        <a-tooltip :content="$t('sharelist.list.actions.copy')">
-          <span v-if="copied">{{ $t('sharelist.list.actions.copied') }}</span>
-          <a-button type="text" @click="() => copy(item.code)">
-            <template #icon>
-              <icon-copy />
-            </template>
-          </a-button>
-        </a-tooltip>
-        <a-tooltip :content="$t('sharelist.list.actions.update')">
+        <a-tooltip
+          :content="$t('sharelist.list.actions.import')"
+          @click="
+            () => {
+              onImportFiles(item.code, item.id)
+            }
+          "
+        >
           <a-button type="text">
             <template #icon>
-              <icon-upload />
+              <icon-import />
             </template>
           </a-button>
         </a-tooltip>
-        <a-tooltip :content="$t('sharelist.list.actions.delete')">
-          <a-button type="text" status="danger">
+        <a-tooltip :content="$t('sharelist.list.actions.download')">
+          <a-button
+            type="text"
+            @click="
+              () => {
+                onDownload(item.code, item.id)
+              }
+            "
+          >
             <template #icon>
-              <icon-delete />
+              <icon-download />
             </template>
           </a-button>
         </a-tooltip>
       </template>
     </a-list-item>
+    {{ importForm.toString() }}
+    <a-modal
+      :visible="importForm.visible"
+      :unmount-on-close="true"
+      @ok="
+        () => {
+          onSaveFilesToDisk()
+        }
+      "
+      @cancel="importForm.visible = false"
+    >
+      <template #title> {{ $t('sharelist.dialog.import.title') }} </template>
+      <import-dialog v-model:value="importForm.path" />
+    </a-modal>
   </a-list>
 </template>
 
 <script lang="ts" setup>
-import { useClipboard } from '@vueuse/core'
+import { ref } from 'vue'
 import { useShareList } from '../hooks/useShareList'
+import importDialog from '@/components/fragment/import-dialog.vue'
 
-const { loading, renderData } = useShareList()
-const { copy, copied } = useClipboard()
+const selected = ref('default')
+
+const {
+  loading,
+  renderData,
+  onImportFiles,
+  importForm,
+  onSaveFilesToDisk,
+  onDownload
+} = useShareList()
 </script>

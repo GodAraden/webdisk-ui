@@ -25,7 +25,12 @@
         <a-tab-pane :key="TABS[0]" :title="$t('contactlist.friends.title')">
           <contactlist field="to" :data="friendList">
             <template #action="{ record }">
-              <a-button type="text" shape="round" status="danger">
+              <a-button
+                type="text"
+                shape="round"
+                status="danger"
+                @click="() => onDeleteContact(record.id)"
+              >
                 <template #icon>
                   <icon-delete />
                 </template>
@@ -203,6 +208,7 @@ const onDeleteContact = async (id: number) => {
   if (!data) return
   Message.success(t(`tips.contactList.${message}`))
   onFetchSendList()
+  onFetchFriendList()
 }
 
 const onUpdateContact = async (id: number, status: string) => {

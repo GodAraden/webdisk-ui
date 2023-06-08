@@ -32,7 +32,6 @@
     >
       <template #title> {{ $t('sharelist.dialog.title') }} </template>
       <share-dialog v-model:form="shareForm.data" :disabled="['files']" />
-      {{ shareForm.data }}
     </a-modal>
   </div>
 </template>

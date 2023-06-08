@@ -118,11 +118,5 @@ const init = async () => {
   }
 }
 
-const onOk = () => {
-  // if (form.files.length === 0) {
-  //   Message.warning(t('tips.sharelist.create.emptyFiles'))
-  // }
-}
-
 init()
 </script>
