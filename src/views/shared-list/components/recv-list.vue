@@ -1,5 +1,4 @@
 <template>
-  {{ selected }}
   <a-list :loading="loading" :bordered="false">
     <a-list-item v-for="item in renderData" :key="item.id">
       <a-list-item-meta

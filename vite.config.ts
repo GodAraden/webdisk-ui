@@ -14,7 +14,7 @@ export default defineConfig({
     port: 3456,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3000', //实际请求地址
+        target: 'http://localhost:12345', //实际请求地址
         changeOrigin: true,
         rewrite: (path: string) => path.replace(/^\/api/, '/api/v1')
       }
