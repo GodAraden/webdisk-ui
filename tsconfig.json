@@ -16,6 +16,8 @@
 
     "sourceMap": true,
 
+    "forceConsistentCasingInFileNames": false,
+
     "paths": {
       "@/*": ["./src/*"]
     }
